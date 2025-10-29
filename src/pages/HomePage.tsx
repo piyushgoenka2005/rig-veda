@@ -15,7 +15,7 @@ import {
   Award
 } from 'lucide-react';
 import { useAppStore } from '../store/appStore';
-import Roadmap from '../components/Roadmap';
+import BookAnimation from '../components/BookAnimation';
 
 const HomePage: React.FC = () => {
   const { hymns } = useAppStore();
@@ -200,7 +200,7 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Roadmap Section */}
+      {/* Book Animation Section */}
       <section className="py-20 bg-vedic-deep/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -209,7 +209,7 @@ const HomePage: React.FC = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <Roadmap />
+            <BookAnimation />
           </motion.div>
         </div>
       </section>

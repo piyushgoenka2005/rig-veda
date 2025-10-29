@@ -16,6 +16,15 @@
   </head>
   <body class="bg-vedic-deep text-vedic-light">
     <div id="root"></div>
+    <script src="/jquery.js"></script>
+    <script src="/turn.js"></script>
+    <script>
+      // Ensure libraries are loaded before React
+      window.addEventListener('load', function() {
+        console.log('jQuery loaded:', typeof window.$ !== 'undefined');
+        console.log('Turn.js loaded:', typeof window.$.fn.turn !== 'undefined');
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
