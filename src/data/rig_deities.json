@@ -1,0 +1,361 @@
+{
+  "Rigvedic_Deities": [
+    {
+      "name": "Indra",
+      "category": "Deva",
+      "domain": ["Storms", "War", "Kingship", "Rain"],
+      "epithets": ["Vṛtrahan (Slayer of Vṛtra)", "Maghavan (The Bountiful)", "Śakra (The Mighty)", "Purandara (Destroyer of Forts)"],
+      "symbolism": {
+        "elements": ["Thunderbolt (Vajra)", "Storm Clouds", "Elephant Airavata"],
+        "colors": ["Blue", "Gold"],
+        "associated_animals": ["Elephant", "Horse"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "Over 250 hymns dedicated, especially in Mandalas 2–9.",
+        "Later_Texts": ["Brāhmaṇas describe him as king of the gods.", "In the Upaniṣads, his role declines as Brahman becomes central.", "In the Puranas, he is still Devarāja but overshadowed by Vishnu and Shiva."]
+      },
+      "lore": "Indra is the chief of the Vedic gods, wielder of the thunderbolt Vajra, who defeated the dragon Vṛtra to release the cosmic waters. He personifies courage, leadership, and divine might.",
+      "historical_evolution": {
+        "Vedic_Era": "Central deity embodying heroic human qualities and cosmic power.",
+        "Epic_Period": "Depicted as Devarāja, more humanized and prone to moral failings.",
+        "Puranic_Hinduism": "Symbolic of worldly power and temptation, gradually replaced in primacy by Vishnu and Shiva."
+      }
+    },
+    {
+      "name": "Agni",
+      "category": "Deva",
+      "domain": ["Fire", "Sacrifice", "Communication with Gods"],
+      "epithets": ["Purohita (Priest of the Gods)", "Dvai-jani (Born of Two Mothers)", "Jātavedas (Knower of All)"],
+      "symbolism": {
+        "elements": ["Flame", "Sacrificial Fire (Yajna)", "Light"],
+        "colors": ["Red", "Orange", "Gold"],
+        "associated_animals": ["Ram", "Birds of flame imagery"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "Around 200 hymns; first verse of the Rigveda invokes Agni.",
+        "Later_Texts": ["Central to all Vedic rituals.", "In Puranas, personified as the mouth of the gods.", "Symbolic of transformative energy in Yoga and Tantra."]
+      },
+      "lore": "Agni is both the fire and the divine priest who carries offerings to the gods. He is ever-young, born anew in every ritual flame, bridging heaven and earth.",
+      "historical_evolution": {
+        "Vedic_Era": "Vital deity for ritual function and cosmic mediation.",
+        "Brahmana_Period": "Linked with knowledge, sacrificial law, and purification.",
+        "Upanishadic_Philosophy": "Reinterpreted as the inner fire of consciousness (prāṇa, tapas)."
+      }
+    },
+    {
+      "name": "Soma",
+      "category": "Deva",
+      "domain": ["Ecstasy", "Immortality", "Inspiration", "Ritual Drink"],
+      "epithets": ["Amṛta (Immortal Nectar)", "Indu (Drop of Light)", "Pavamāna (Purifying One)"],
+      "symbolism": {
+        "elements": ["Moon", "Plant", "Flowing Liquid"],
+        "colors": ["Silver", "Green", "White"],
+        "associated_animals": ["Bull", "Serpent"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "Over 120 hymns; Soma is both a deity and sacred drink.",
+        "Later_Texts": ["Identified with Chandra, the moon.", "Becomes a symbol of rejuvenation and divine consciousness."]
+      },
+      "lore": "Soma is the divine elixir of inspiration and immortality. The drink pressed from the Soma plant was used in rituals to elevate the sacrificer into communion with gods.",
+      "historical_evolution": {
+        "Vedic_Era": "Ritual center of religious experience and divine ecstasy.",
+        "Brahmana_Period": "Linked to moon cycles and regeneration.",
+        "Later_Hinduism": "Merged with lunar deity Chandra, retaining immortality symbolism."
+      }
+    },
+    {
+      "name": "Ashvins",
+      "category": "Twin_Deities",
+      "domain": ["Healing", "Dawn", "Travel", "Rescue"],
+      "epithets": ["Nasatyas (True Ones)", "Divine Physicians", "Sons of the Sky"],
+      "symbolism": {
+        "elements": ["Twin Chariots", "Horses", "Morning Light"],
+        "colors": ["Gold", "Red", "White"],
+        "associated_animals": ["Horses"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "56 hymns dedicated, appearing as youthful saviors.",
+        "Later_Texts": ["Retain healing role in epic and Purāṇic traditions.", "Sometimes identified as deified physicians."]
+      },
+      "lore": "The Ashvins are twin horsemen who rescue the distressed, heal the sick, and herald dawn. They symbolize vitality, harmony, and salvation.",
+      "historical_evolution": {
+        "Vedic_Era": "Deities of dawn and restoration, invoked before sunrise.",
+        "Epic_Age": "Patrons of Ayurveda and speed.",
+        "Later_Hinduism": "Absorbed into broader solar mythology as divine healers."
+      }
+    },
+    {
+      "name": "Varuna",
+      "category": "Aditya",
+      "domain": ["Cosmic Order (Ṛta)", "Ocean", "Moral Law", "Truth"],
+      "epithets": ["Asura (Lord of Order)", "Rita-pati (Lord of Cosmic Law)", "Jalapati (Lord of Waters)"],
+      "symbolism": {
+        "elements": ["Ocean", "Night Sky", "Noose of Law"],
+        "colors": ["Deep Blue", "Silver"],
+        "associated_animals": ["Makara (Sea Creature)"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "Around 46 hymns, revered as upholder of Ṛta.",
+        "Later_Texts": ["Becomes god of the seas in Puranas.", "Retains moral and juridical symbolism."]
+      },
+      "lore": "Varuna is the guardian of truth and cosmic order. He oversees the moral fabric of the universe and punishes falsehood with his binding noose.",
+      "historical_evolution": {
+        "Vedic_Era": "Supreme moral authority.",
+        "Post-Vedic": "Gradual decline as Indra and Vishnu gained prominence.",
+        "Puranic": "Becomes god of the oceans, presiding over western direction."
+      }
+    },
+    {
+      "name": "Maruts",
+      "category": "Deva_Group",
+      "domain": ["Storms", "Battle", "Companions of Indra"],
+      "epithets": ["Sons of Rudra", "Shining Ones"],
+      "symbolism": {
+        "elements": ["Lightning", "Wind", "Thunder"],
+        "colors": ["Steel Grey", "Blue"],
+        "associated_animals": ["Horses"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "38 hymns, described as fierce and youthful warriors.",
+        "Later_Texts": ["Associated with Rudra and Shiva as storm spirits."]
+      },
+      "lore": "The Maruts are storm deities who accompany Indra, wielding lightning and roaring across the sky. They embody power, vigor, and cosmic movement.",
+      "historical_evolution": {
+        "Vedic_Era": "Independent warrior band under Indra.",
+        "Brahmana_Period": "Linked with Rudra’s fierce nature.",
+        "Puranic": "Absorbed into Shiva’s entourage as Rudras."
+      }
+    },
+    {
+      "name": "Mitra",
+      "category": "Aditya",
+      "domain": ["Friendship", "Contracts", "Harmony"],
+      "epithets": ["Guardian of Truth", "Lord of Bonds"],
+      "symbolism": {
+        "elements": ["Sunrise", "Oath", "Trust"],
+        "colors": ["Golden", "Warm Yellow"],
+        "associated_animals": ["None"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "28 hymns often paired with Varuna.",
+        "Later_Texts": ["Symbolic of companionship and honesty.", "Absorbed into solar aspect of Surya."]
+      },
+      "lore": "Mitra embodies friendship and agreements, ensuring harmony among men and gods. Together with Varuna, he maintains moral and cosmic balance.",
+      "historical_evolution": {
+        "Vedic_Era": "Co-ruler with Varuna of moral law.",
+        "Iranian_Parallel": "Becomes Mithra in Zoroastrianism, god of contracts.",
+        "Later_Hinduism": "Merged into solar theology as aspect of Surya."
+      }
+    },
+    {
+      "name": "Ushas",
+      "category": "Devi",
+      "domain": ["Dawn", "Renewal", "Light"],
+      "epithets": ["Daughter of the Sky", "Bringer of Light"],
+      "symbolism": {
+        "elements": ["Sunrise", "Morning Sky", "Rosy Clouds"],
+        "colors": ["Pink", "Gold", "Saffron"],
+        "associated_animals": ["Cows (Symbol of Rays)"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "21 hymns devoted to her as the dawn goddess.",
+        "Later_Texts": ["Remains poetic symbol of renewal and feminine beauty."]
+      },
+      "lore": "Ushas is the radiant dawn who dispels darkness, awakens the world, and renews life each day. She embodies youth, grace, and inevitability of time.",
+      "historical_evolution": {
+        "Vedic_Era": "Major goddess of the natural cycle.",
+        "Post-Vedic": "Symbolic of poetic inspiration and feminine energy.",
+        "Modern_Interpretation": "Represents rebirth and awakening of consciousness."
+      }
+    },
+    {
+      "name": "Vayu",
+      "category": "Deva",
+      "domain": ["Wind", "Breath", "Vitality"],
+      "epithets": ["Pavana (Purifier)", "Prāṇa-deva (God of Life-breath)"],
+      "symbolism": {
+        "elements": ["Air", "Movement", "Clouds"],
+        "colors": ["White", "Blue"],
+        "associated_animals": ["Deer", "Horse"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "12 hymns; companion of Indra and Soma.",
+        "Later_Texts": ["Central to Yoga as prāṇa.", "Father of Hanuman in Ramayana."]
+      },
+      "lore": "Vayu personifies the life force pervading the cosmos. He is the purifier and messenger, bridging the physical and spiritual through breath.",
+      "historical_evolution": {
+        "Vedic_Era": "Vital cosmic principle.",
+        "Upanishads": "Identified with prāṇa, the breath of life.",
+        "Later_Hinduism": "Becomes divine father of heroes like Bhima and Hanuman."
+      }
+    },
+    {
+      "name": "Savitr",
+      "category": "Aditya",
+      "domain": ["Solar Power", "Inspiration", "Creation"],
+      "epithets": ["Golden-eyed", "Bestower of Energy"],
+      "symbolism": {
+        "elements": ["Sun Rays", "Light", "Energy"],
+        "colors": ["Golden", "Orange"],
+        "associated_animals": ["Horses"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "11 hymns; invoked in Gayatri Mantra (3.62.10).",
+        "Later_Texts": ["Merged with Surya and Vishnu’s creative aspects."]
+      },
+      "lore": "Savitr is the divine inspirer who sets all beings into motion at sunrise. The famous Gayatri mantra venerates his life-giving radiance.",
+      "historical_evolution": {
+        "Vedic_Era": "Distinct solar deity representing creative power.",
+        "Upanishadic": "Source of spiritual illumination.",
+        "Later_Hinduism": "Merged with Surya, symbolizing divine intelligence."
+      }
+    },
+    {
+      "name": "Ribhus",
+      "category": "Divine_Craftsmen",
+      "domain": ["Skill", "Artistry", "Creation"],
+      "epithets": ["Sons of Sudhanvan", "Divine Artisans"],
+      "symbolism": {
+        "elements": ["Craftsmanship", "Forge", "Divine Tools"],
+        "colors": ["Gold", "Bronze"],
+        "associated_animals": ["None"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "11 hymns; known for crafting Indra’s horses and Agni’s car.",
+        "Later_Texts": ["Become archetypes of inspired human skill."]
+      },
+      "lore": "The Ribhus are divine craftsmen who perfected creation through skill and devotion, symbolizing human ingenuity elevated to the divine.",
+      "historical_evolution": {
+        "Vedic_Era": "Celebrated as model artisans.",
+        "Post-Vedic": "Symbolic of the sanctity of work and innovation.",
+        "Later_Interpretations": "Seen as early prototypes of divine creativity."
+      }
+    },
+    {
+      "name": "Pushan",
+      "category": "Deva",
+      "domain": ["Travel", "Cattle", "Protection", "Guidance"],
+      "epithets": ["Pathfinder", "Protector of Roads", "Nourisher"],
+      "symbolism": {
+        "elements": ["Staff", "Sunlight", "Journey"],
+        "colors": ["Gold", "Green"],
+        "associated_animals": ["Goat"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "10 hymns dedicated; associated with safe journeys.",
+        "Later_Texts": ["Guide of souls and guardian of travelers."]
+      },
+      "lore": "Pushan ensures safe travel, prosperity, and guidance. He connects the living world with the departed, serving as a psychopomp.",
+      "historical_evolution": {
+        "Vedic_Era": "Pastoral and journey god.",
+        "Brahmana_Age": "Linked to nourishment and protection.",
+        "Puranic_Hinduism": "Merged with Surya as the guiding light."
+      }
+    },
+    {
+      "name": "Apris",
+      "category": "Collective_Deities",
+      "domain": ["Sacrificial Fires", "Purification", "Invocation"],
+      "epithets": ["Flame Hosts", "Ritual Fires"],
+      "symbolism": {
+        "elements": ["Fire", "Altar", "Light"],
+        "colors": ["Orange", "Red"],
+        "associated_animals": ["None"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "9 hymns (Apri Suktas) specific to ritual invocations.",
+        "Later_Texts": ["Remains liturgical core of yajña rituals."]
+      },
+      "lore": "The Apris are the manifold flames invoked in sacrifice, mediating between worshipper and gods through sanctified light.",
+      "historical_evolution": {
+        "Vedic_Era": "Key in ritual practice.",
+        "Brahmana_Period": "Central to Agnicayana rituals.",
+        "Later_Period": "Absorbed as ritual components of Agni’s personality."
+      }
+    },
+    {
+      "name": "Brihaspati",
+      "category": "Deva",
+      "domain": ["Wisdom", "Ritual Speech", "Priesthood"],
+      "epithets": ["Guru of the Gods", "Vakpati (Lord of Speech)", "Priestly Sage"],
+      "symbolism": {
+        "elements": ["Speech", "Fire", "Intellect"],
+        "colors": ["Yellow", "Gold"],
+        "associated_animals": ["Elephant"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "8 hymns, invoked as priestly power.",
+        "Later_Texts": ["Becomes Jupiter (Guru) in astrology.", "Advisor to gods in Puranas."]
+      },
+      "lore": "Brihaspati embodies sacred wisdom and eloquence, guiding gods and men through knowledge and ritual truth.",
+      "historical_evolution": {
+        "Vedic_Era": "Divine priestly archetype.",
+        "Upanishads": "Symbolic of divine intellect.",
+        "Puranic_Age": "Personified as Jupiter, guru of Devas."
+      }
+    },
+    {
+      "name": "Surya",
+      "category": "Aditya",
+      "domain": ["Sun", "Vision", "Illumination"],
+      "epithets": ["Eye of the Gods", "Savitṛ", "Bhāskara"],
+      "symbolism": {
+        "elements": ["Sun Disk", "Chariot", "Light"],
+        "colors": ["Gold", "Orange"],
+        "associated_animals": ["Seven Horses"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "8 hymns dedicated to Surya.",
+        "Later_Texts": ["Central solar deity merged with Savitr and Vishnu.", "Praised in the Aditya Hridayam."]
+      },
+      "lore": "Surya rides his seven-horse chariot, illuminating the worlds. He represents truth, vision, and the supreme witness.",
+      "historical_evolution": {
+        "Vedic_Era": "Visible solar deity of order and perception.",
+        "Post-Vedic": "Merged with Savitr and Vishnu.",
+        "Modern_Hinduism": "Source of vitality and spiritual sight."
+      }
+    },
+    {
+      "name": "Dyaus and Prithivi",
+      "category": "Cosmic_Pair",
+      "domain": ["Sky and Earth", "Creation"],
+      "epithets": ["Sky Father and Earth Mother"],
+      "symbolism": {
+        "elements": ["Heavens", "Soil", "Cosmic Balance"],
+        "colors": ["Blue", "Brown", "Green"],
+        "associated_animals": ["None"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "6 hymns to the pair, plus one to Prithivi alone.",
+        "Later_Texts": ["Archetypal parents of all life."]
+      },
+      "lore": "Dyaus and Prithivi are the cosmic parents, the eternal union of heaven and earth that sustains creation.",
+      "historical_evolution": {
+        "Vedic_Era": "Primordial pair.",
+        "Post-Vedic": "Symbol of natural duality and balance.",
+        "Puranic": "Prithivi becomes goddess of Earth (Bhudevi)."
+      }
+    },
+    {
+      "name": "Vāc",
+      "category": "Devi",
+      "domain": ["Speech", "Wisdom", "Expression", "Knowledge"],
+      "epithets": ["Mother of the Vedas", "Speech Incarnate", "Vak Devi"],
+      "symbolism": {
+        "elements": ["Sound", "Light", "Word"],
+        "colors": ["White", "Blue"],
+        "associated_animals": ["Swan"]
+      },
+      "scriptural_presence": {
+        "Rigveda": "2 hymns (notably 10.125). Mentioned ~130 times overall.",
+        "Later_Texts": ["Identified with Sarasvati and divine speech.", "Represents Brahman manifesting as sound."]
+      },
+      "lore": "Vāc is the goddess of speech and the creative Word, who declares herself as the essence of gods and beings. She is the power of consciousness manifest through language.",
+      "historical_evolution": {
+        "Vedic_Era": "Abstract principle personified as divine speech.",
+        "Upanishadic": "Linked to Prajapati and the creative vibration (Śabda-Brahman).",
+        "Later_Hinduism": "Merged with Sarasvati, goddess of learning and eloquence."
+      }
+    }
+  ]
+}

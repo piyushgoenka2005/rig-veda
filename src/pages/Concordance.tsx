@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import SectionOverlay from '../components/SectionOverlay';
 import { motion } from 'framer-motion';
 import { 
   Search, 
@@ -175,8 +176,9 @@ const Concordance: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-vedic-deep">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-transparent relative">
+      <SectionOverlay opacity={48} blur="sm" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

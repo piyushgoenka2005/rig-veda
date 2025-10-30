@@ -4,10 +4,8 @@ import {
   Home, 
   BookOpen, 
   Network, 
-  Palette, 
   Search, 
-  Brain, 
-  List,
+  Brain,
   Menu,
   X,
   Sparkles,
@@ -25,10 +23,8 @@ const Header: React.FC = () => {
     { path: '/', label: 'Home', icon: Home },
     { path: '/hymn/1.1.1', label: 'Hymn Viewer', icon: BookOpen },
     { path: '/deities', label: 'Deity Network', icon: Network },
-    { path: '/themes', label: 'Theme Explorer', icon: Palette },
     { path: '/concordance', label: 'Concordance', icon: Search },
     { path: '/study', label: 'Study Mode', icon: Brain },
-    { path: '/playlists', label: 'Playlists', icon: List },
   ];
 
   const isActive = (path: string) => {

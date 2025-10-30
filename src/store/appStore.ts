@@ -41,7 +41,7 @@ export const useAppStore = create<AppStore>((set, get) => ({
   hymns: sampleHymns,
   playlists: [],
   studyCards: [],
-  showOnboarding: true,
+  showOnboarding: false,
   currentHymn: null,
   selectedDeities: [],
   activeThemes: [],

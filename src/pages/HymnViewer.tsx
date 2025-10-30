@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import SectionOverlay from '../components/SectionOverlay';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -35,7 +36,8 @@ const HymnViewer: React.FC = () => {
   const [currentHymn, setCurrentHymn] = useState<Hymn | null>(null);
   const [currentVerse, setCurrentVerse] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [speechSynthesis, setSpeechSynthesis] = useState<SpeechSynthesisUtterance | null>(null);
+  const [currentUtterance, setCurrentUtterance] = useState<SpeechSynthesisUtterance | null>(null);
+  const [lockedVoice, setLockedVoice] = useState<SpeechSynthesisVoice | null>(null);
 
   useEffect(() => {
     if (hymnId) {
@@ -46,68 +48,127 @@ const HymnViewer: React.FC = () => {
   }, [hymnId, getHymnById]);
 
   useEffect(() => {
-    if (speechSynthesis) {
+    if (currentUtterance) {
       window.speechSynthesis.cancel();
-      setSpeechSynthesis(null);
+      setCurrentUtterance(null);
     }
   }, [currentVerse]);
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (speechSynthesis) {
+      if (currentUtterance) {
         window.speechSynthesis.cancel();
       }
     };
-  }, [speechSynthesis]);
+  }, [currentUtterance]);
 
   const playAudio = () => {
     if (!currentHymn || !currentHymn.verses[currentVerse]) return;
     
     // Stop any current speech
-    if (speechSynthesis) {
+    if (currentUtterance) {
       window.speechSynthesis.cancel();
     }
     
     const currentVerseData = currentHymn.verses[currentVerse];
     
-    // Create text to speak based on what's currently displayed
-    let textToSpeak = '';
-    if (showTranslation) {
-      textToSpeak = currentVerseData.translations.wilson || currentVerseData.translations.griffith || currentVerseData.translations.jamison || '';
-    } else if (showTransliteration) {
-      textToSpeak = currentVerseData.transliteration;
+    // Build the queue of segments to read in order
+    type Segment = { text: string; type: 'sa' | 'en' | 'iasta' };
+    const segments: Segment[] = [];
+
+    const translationText = currentVerseData.translations.wilson || currentVerseData.translations.griffith || currentVerseData.translations.jamison || '';
+
+    if (showSanskrit && showTranslation) {
+      if (currentVerseData.sanskrit) segments.push({ text: currentVerseData.sanskrit, type: 'sa' });
+      if (translationText) segments.push({ text: translationText, type: 'en' });
     } else if (showSanskrit) {
-      textToSpeak = currentVerseData.sanskrit;
+      if (currentVerseData.sanskrit) segments.push({ text: currentVerseData.sanskrit, type: 'sa' });
+    } else if (showTransliteration && !showTranslation) {
+      if (currentVerseData.transliteration) segments.push({ text: currentVerseData.transliteration, type: 'en' });
+    } else if (showTranslation) {
+      if (translationText) segments.push({ text: translationText, type: 'en' });
     }
-    
-    if (!textToSpeak) return;
-    
-    const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    utterance.rate = 0.8;
-    utterance.pitch = 1;
-    utterance.volume = 0.8;
-    
-    utterance.onend = () => {
-      setIsPlaying(false);
-      setSpeechSynthesis(null);
+
+    if (segments.length === 0) return;
+
+    const selectPreferredVoice = (voices: SpeechSynthesisVoice[], prefs: string[]) => {
+      for (const pref of prefs) {
+        const byExact = voices.find(v => v.lang.toLowerCase() === pref.toLowerCase());
+        if (byExact) return byExact;
+        const byPrefix = voices.find(v => v.lang.toLowerCase().startsWith(pref.split('-')[0].toLowerCase()));
+        if (byPrefix) return byPrefix;
+      }
+      return undefined;
     };
-    
-    utterance.onerror = () => {
-      setIsPlaying(false);
-      setSpeechSynthesis(null);
+
+    const speakSegmentAt = (index: number) => {
+      if (index >= segments.length) {
+        setIsPlaying(false);
+        setCurrentUtterance(null);
+        return;
+      }
+
+      const segment = segments[index];
+      const utterance = new SpeechSynthesisUtterance(segment.text);
+
+      const voices = window.speechSynthesis.getVoices();
+      let languagePreferences: string[] = [];
+      if (segment.type === 'sa') {
+        languagePreferences = ['sa-IN', 'sa', 'hi-IN', 'hi', 'en-US'];
+      } else {
+        languagePreferences = ['en-US', 'en-GB', 'en'];
+      }
+
+      let preferredVoice = selectPreferredVoice(voices, languagePreferences);
+      if (segment.type !== 'sa' && lockedVoice) {
+        preferredVoice = lockedVoice;
+      }
+      if (segment.type === 'sa' && preferredVoice) {
+        setLockedVoice(preferredVoice);
+      }
+
+      utterance.lang = (preferredVoice?.lang) || languagePreferences[0] || 'en-US';
+      if (preferredVoice) utterance.voice = preferredVoice;
+      utterance.rate = 0.8;
+      utterance.pitch = 1;
+      utterance.volume = 0.8;
+
+      utterance.onend = () => {
+        setCurrentUtterance(null);
+        speakSegmentAt(index + 1);
+      };
+      utterance.onerror = () => {
+        setCurrentUtterance(null);
+        speakSegmentAt(index + 1);
+      };
+
+      setCurrentUtterance(utterance);
+      window.speechSynthesis.speak(utterance);
     };
-    
-    setSpeechSynthesis(utterance);
-    window.speechSynthesis.speak(utterance);
-    setIsPlaying(true);
+
+    const startSpeaking = () => {
+      setIsPlaying(true);
+      speakSegmentAt(0);
+    };
+
+    const availableVoices = window.speechSynthesis.getVoices();
+    if (availableVoices && availableVoices.length > 0) {
+      startSpeaking();
+    } else {
+      const handleVoicesChanged = () => {
+        window.speechSynthesis.removeEventListener('voiceschanged', handleVoicesChanged);
+        startSpeaking();
+      };
+      window.speechSynthesis.addEventListener('voiceschanged', handleVoicesChanged);
+    }
   };
 
   const pauseAudio = () => {
-    if (speechSynthesis) {
+    if (currentUtterance) {
       window.speechSynthesis.cancel();
       setIsPlaying(false);
-      setSpeechSynthesis(null);
+      setCurrentUtterance(null);
     }
   };
 
@@ -155,8 +216,9 @@ const HymnViewer: React.FC = () => {
   const prevHymn = getPrevHymn();
 
   return (
-    <div className="min-h-screen bg-vedic-deep">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-transparent relative">
+      <SectionOverlay opacity={48} blur="sm" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

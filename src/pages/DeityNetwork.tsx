@@ -1,29 +1,36 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import SectionOverlay from '../components/SectionOverlay';
 import { motion } from 'framer-motion';
 import { 
   Search, 
   Filter, 
   Info, 
-  ExternalLink,
+  X,
   Star,
   Users,
   Zap,
   Network
 } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Text, Sphere, Line } from '@react-three/drei';
+import { OrbitControls, Text, Sphere, Line, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { sampleDeities } from '../data/sample-data';
 import { Deity } from '../types/vedic';
+import { Link } from 'react-router-dom';
+import { computeForceLayout, loadPersistedPositions, persistPositions, GraphNode, GraphLink } from '../utils/forceLayout';
 
 interface NodeProps {
   deity: Deity;
   position: [number, number, number];
   isSelected: boolean;
+  isDimmed: boolean;
+  isHovered: boolean;
+  showLabel: boolean;
   onClick: () => void;
+  onHover: (id: string | null) => void;
 }
 
-const Node: React.FC<NodeProps> = ({ deity, position, isSelected, onClick }) => {
+const Node: React.FC<NodeProps> = ({ deity, position, isSelected, isDimmed, isHovered, showLabel, onClick, onHover }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   
   const getDeityColor = () => {
@@ -45,7 +52,8 @@ const Node: React.FC<NodeProps> = ({ deity, position, isSelected, onClick }) => 
     }
   };
 
-  const color = isSelected ? '#FF9933' : getDeityColor();
+  const baseColor = getDeityColor();
+  const color = isSelected ? '#FF9933' : baseColor;
   const size = isSelected ? 0.8 : Math.max(0.3, Math.min(0.7, deity.frequency / 400));
 
   // Gentle floating animation
@@ -60,41 +68,65 @@ const Node: React.FC<NodeProps> = ({ deity, position, isSelected, onClick }) => 
     <group position={position}>
       {/* Glow effect */}
       <Sphere args={[size + 0.2]} position={[0, 0, 0]}>
-        <meshBasicMaterial color={color} transparent opacity={0.3} />
+        <meshBasicMaterial color={color} transparent opacity={isSelected ? 0.5 : 0.2} />
       </Sphere>
       
       {/* Main sphere */}
-      <Sphere ref={meshRef} args={[size]} position={[0, 0, 0]} onClick={onClick}>
+      <Sphere 
+        ref={meshRef} 
+        args={[size]} 
+        position={[0, 0, 0]}
+        onClick={onClick}
+        onPointerOver={(e) => { e.stopPropagation(); onHover(deity.id); }}
+        onPointerOut={(e) => { e.stopPropagation(); onHover(null); }}
+      >
         <meshStandardMaterial 
           color={color} 
           metalness={0.3} 
           roughness={0.4}
           emissive={color}
-          emissiveIntensity={0.1}
+          emissiveIntensity={isSelected || isHovered ? 0.4 : 0.1}
+          transparent
+          opacity={isDimmed ? 0.35 : 1}
         />
       </Sphere>
       
       {/* Deity name */}
-      <Text
-        position={[0, size + 0.3, 0]}
-        fontSize={0.15}
-        color="#D4AF37"
-        anchorX="center"
-        anchorY="middle"
-      >
-        {deity.name}
-      </Text>
+      {showLabel && (
+        <Text
+          position={[0, size + 0.3, 0]}
+          fontSize={0.14}
+          color="#D4AF37"
+          anchorX="center"
+          anchorY="middle"
+        >
+          {deity.name}
+        </Text>
+      )}
       
       {/* Frequency indicator */}
-      <Text
-        position={[0, -size - 0.2, 0]}
-        fontSize={0.08}
-        color="#FF9933"
-        anchorX="center"
-        anchorY="middle"
-      >
-        {deity.frequency} hymns
-      </Text>
+      {!isDimmed && (
+        <Text
+          position={[0, -size - 0.2, 0]}
+          fontSize={0.08}
+          color="#FF9933"
+          anchorX="center"
+          anchorY="middle"
+        >
+          {deity.frequency} hymns
+        </Text>
+      )}
+
+      {/* Tooltip */}
+      {isHovered && (
+        <Html distanceFactor={10} position={[0, size + 0.6, 0]}>
+          <div className="px-3 py-2 bg-vedic-deep/90 border border-vedic-gold/30 rounded-lg text-xs text-vedic-light shadow-lg">
+            <div className="font-semibold text-vedic-gold">{deity.name}</div>
+            <div>Frequency: {deity.frequency}</div>
+            <div className="opacity-80">{deity.epithets.slice(0, 3).join(', ')}</div>
+          </div>
+        </Html>
+      )}
     </group>
   );
 };
@@ -104,9 +136,11 @@ interface EdgeProps {
   end: [number, number, number];
   strength: number;
   type: string;
+  dimmed: boolean;
+  highlighted: boolean;
 }
 
-const Edge: React.FC<EdgeProps> = ({ start, end, strength, type }) => {
+const Edge: React.FC<EdgeProps> = ({ start, end, strength, type, dimmed, highlighted }) => {
   const getColor = () => {
     switch (type) {
       case 'partnership': return '#FF9800'; // Orange - Mythological partnerships
@@ -119,8 +153,9 @@ const Edge: React.FC<EdgeProps> = ({ start, end, strength, type }) => {
   };
 
   const points = [start, end];
-  const opacity = 0.3 + strength * 0.7;
-  const lineWidth = Math.max(1, strength * 3);
+  const baseOpacity = 0.25 + strength * 0.6;
+  const opacity = dimmed ? 0.15 : highlighted ? 1 : baseOpacity;
+  const lineWidth = highlighted ? Math.max(2.5, strength * 5) : Math.max(1, strength * 3);
 
   return (
     <Line
@@ -134,69 +169,123 @@ const Edge: React.FC<EdgeProps> = ({ start, end, strength, type }) => {
 
 const DeityNetwork: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState('all');
   const [selectedDeity, setSelectedDeity] = useState<Deity | null>(null);
   const [showInfo, setShowInfo] = useState(false);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [activeTypes, setActiveTypes] = useState<string[]>(['partnership', 'familial', 'alliance', 'complementary', 'ritual']);
+  const [minStrength, setMinStrength] = useState(0);
+  const [topN, setTopN] = useState<number>(0);
+  const [autoRotate, setAutoRotate] = useState<boolean>(false);
+  const controlsRef = useRef<any>(null);
+
+  useEffect(() => {
+    const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') setSelectedDeity(null); };
+    window.addEventListener('keydown', onEsc);
+    return () => window.removeEventListener('keydown', onEsc);
+  }, []);
 
   const filteredDeities = useMemo(() => {
-    return sampleDeities.filter(deity => {
+    const base = sampleDeities.filter(deity => {
       const matchesSearch = deity.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            deity.epithets.some(epithet => epithet.toLowerCase().includes(searchTerm.toLowerCase()));
-      
-      if (filterType === 'all') return matchesSearch;
-      
-      return matchesSearch && deity.relationships.some(rel => rel.type === filterType);
+      return matchesSearch && deity.relationships.some(rel => activeTypes.includes(rel.type) && rel.strength >= (minStrength / 100));
     });
-  }, [searchTerm, filterType]);
+    if (topN && topN > 0) {
+      return [...base].sort((a, b) => b.frequency - a.frequency).slice(0, topN);
+    }
+    return base;
+  }, [searchTerm, activeTypes, minStrength, topN]);
 
-  const nodePositions = useMemo(() => {
-    const positions: { [key: string]: [number, number, number] } = {};
-    const radius = 4;
-    
-    filteredDeities.forEach((deity, index) => {
-      const angle = (index / filteredDeities.length) * Math.PI * 2;
-      const height = (Math.random() - 0.5) * 3; // Random height for 3D effect
-      
-      positions[deity.id] = [
-        Math.cos(angle) * radius,
-        height,
-        Math.sin(angle) * radius
-      ];
-    });
-    
-    return positions;
+  // Graph nodes & force layout
+  const categoryOf = (d: Deity) => {
+    if (['Indra', 'Maruts', 'Rudra'].includes(d.name)) return 'storm';
+    if (['Surya', 'Mitra', 'Ushas'].includes(d.name)) return 'solar';
+    if (['Varuna', 'Saraswati'].includes(d.name)) return 'water';
+    if (['Soma'].includes(d.name)) return 'elixir';
+    if (['Ashvins', 'Vishnu'].includes(d.name)) return 'protector';
+    if (['Agni'].includes(d.name)) return 'fire';
+    return 'other';
+  };
+
+  const graphNodes: GraphNode[] = useMemo(() => {
+    return filteredDeities.map((d) => ({ id: d.id, category: categoryOf(d), size: Math.max(5, Math.min(18, d.frequency / 10)) }));
   }, [filteredDeities]);
 
-  const edges = useMemo(() => {
-    const edgeList: Array<{
-      start: [number, number, number];
-      end: [number, number, number];
-      strength: number;
-      type: string;
-    }> = [];
-    
-    filteredDeities.forEach(deity => {
-      deity.relationships.forEach(rel => {
-        const startPos = nodePositions[deity.id];
-        const endPos = nodePositions[rel.target];
-        
-        if (startPos && endPos) {
-          edgeList.push({
-            start: startPos,
-            end: endPos,
-            strength: rel.strength,
-            type: rel.type
-          });
-        }
+  const graphLinks: GraphLink[] = useMemo(() => {
+    const map: { [key: string]: { source: string; target: string; strength: number } } = {};
+    filteredDeities.forEach((d) => {
+      d.relationships.forEach((r) => {
+        if (!activeTypes.includes(r.type) || r.strength < (minStrength / 100)) return;
+        if (!filteredDeities.find(fd => fd.id === r.target)) return;
+        const a = d.id; const b = r.target; const key = a < b ? `${a}__${b}` : `${b}__${a}`;
+        const ex = map[key];
+        map[key] = { source: a, target: b, strength: Math.max(ex?.strength || 0, r.strength) };
       });
     });
-    
-    return edgeList;
-  }, [filteredDeities, nodePositions]);
+    return Object.values(map);
+  }, [filteredDeities, activeTypes, minStrength]);
+
+  const persisted = useMemo(() => loadPersistedPositions('deity-layout-v1'), []);
+  const nodePositions = useMemo(() => {
+    const pos = computeForceLayout(graphNodes, graphLinks, persisted || undefined, 200);
+    const out: { [key: string]: [number, number, number] } = {};
+    Object.entries(pos).forEach(([id, p]) => { out[id] = [p.x, p.y, p.z]; });
+    return out;
+  }, [graphNodes, graphLinks, persisted]);
+
+  useEffect(() => {
+    const flat = Object.fromEntries(Object.entries(nodePositions).map(([id, arr]) => [id, { x: arr[0], y: arr[1], z: arr[2] }]));
+    persistPositions('deity-layout-v1', flat);
+  }, [nodePositions]);
+
+  const edges = useMemo(() => {
+    const list: Array<{ start: [number, number, number]; end: [number, number, number]; strength: number; type: string; pair: string }>[] = [] as any;
+    const pushEdge = (a: string, b: string, strength: number, type: string) => {
+      const start = nodePositions[a];
+      const end = nodePositions[b];
+      if (!start || !end) return;
+      (list as any).push({ start, end, strength, type, pair: a < b ? `${a}__${b}` : `${b}__${a}` });
+    };
+    filteredDeities.forEach((d) => d.relationships.forEach((r) => {
+      if (!activeTypes.includes(r.type) || r.strength < (minStrength / 100)) return;
+      if (!filteredDeities.find(fd => fd.id === r.target)) return;
+      pushEdge(d.id, r.target, r.strength, r.type);
+    }));
+    const dedup: Record<string, { start: [number, number, number]; end: [number, number, number]; strength: number; type: string }> = {};
+    (list as any).forEach((e: any) => {
+      const ex = dedup[e.pair];
+      if (!ex || e.strength > ex.strength) dedup[e.pair] = { start: e.start, end: e.end, strength: e.strength, type: e.type };
+    });
+    return Object.values(dedup);
+  }, [filteredDeities, nodePositions, activeTypes, minStrength]);
 
   const handleNodeClick = (deity: Deity) => {
     setSelectedDeity(selectedDeity?.id === deity.id ? null : deity);
   };
+
+  const neighbors = useMemo(() => {
+    const map: Record<string, Set<string>> = {};
+    filteredDeities.forEach((d) => {
+      map[d.id] = map[d.id] || new Set<string>();
+      d.relationships.forEach((r) => {
+        if (!filteredDeities.find(fd => fd.id === r.target)) return;
+        (map[d.id] = map[d.id] || new Set()).add(r.target);
+        (map[r.target] = map[r.target] || new Set()).add(d.id);
+      });
+    });
+    return map;
+  }, [filteredDeities]);
+
+  const fitToSelection = useCallback(() => {
+    if (!selectedDeity || !controlsRef.current) return;
+    const pos = nodePositions[selectedDeity.id];
+    if (!pos) return;
+    const controls = controlsRef.current;
+    controls.target.set(pos[0], pos[1], pos[2]);
+    const cam = controls.object;
+    cam.position.set(pos[0] + 0, pos[1] + 0, pos[2] + 8);
+    controls.update();
+  }, [selectedDeity, nodePositions]);
 
   const getRelationshipStats = () => {
     const stats = {
@@ -223,8 +312,10 @@ const DeityNetwork: React.FC = () => {
   const stats = getRelationshipStats();
 
   return (
-    <div className="min-h-screen bg-vedic-deep">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-transparent relative" role="application" aria-label="Vedic Deity Network Graph">
+      <SectionOverlay opacity={48} blur="sm" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div aria-live="polite" className="sr-only">{selectedDeity ? `Selected ${selectedDeity.name}` : ''}</div>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -269,41 +360,75 @@ const DeityNetwork: React.FC = () => {
           {/* Controls */}
           <div className="bg-vedic-deep/30 rounded-xl p-6 mb-6">
             <h3 className="text-lg font-semibold text-vedic-gold mb-4">🔍 Explore & Filter</h3>
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
-                <label className="block text-sm font-medium text-vedic-gold mb-2">
-                  Search for a deity
-                </label>
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-vedic-light/50" />
-                  <input
-                    type="text"
-                    placeholder="Try: Indra, Agni, Soma..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-vedic-deep/50 border border-vedic-gold/20 rounded-lg text-vedic-light placeholder-vedic-light/50 focus:outline-none focus:border-vedic-gold"
-                  />
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-vedic-gold mb-2">
+                    Search for a deity
+                  </label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-vedic-light/50" />
+                    <input
+                      type="text"
+                      placeholder="Try: Indra, Agni, Soma..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 bg-vedic-deep/50 border border-vedic-gold/20 rounded-lg text-vedic-light placeholder-vedic-light/50 focus:outline-none focus:border-vedic-gold"
+                    />
+                  </div>
+                </div>
+                <div className="md:w-64">
+                  <label className="block text-sm font-medium text-vedic-gold mb-2">Relationship types</label>
+                  <div className="relative pl-8">
+                    <Filter className="absolute left-0 top-1 h-5 w-5 text-vedic-gold" />
+                    <div className="grid grid-cols-2 gap-2">
+                      {['partnership','familial','alliance','complementary','ritual'].map(t => (
+                        <label key={t} className="flex items-center space-x-2 text-vedic-light/80">
+                          <input
+                            type="checkbox"
+                            checked={activeTypes.includes(t)}
+                            onChange={(e) => setActiveTypes(s => e.target.checked ? [...s, t] : s.filter(x => x !== t))}
+                          />
+                          <span className="capitalize">{t}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-              
-              <div className="md:w-64">
-                <label className="block text-sm font-medium text-vedic-gold mb-2">
-                  Filter by relationship type
-                </label>
-                <div className="relative">
-                  <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-vedic-gold" />
-                  <select
-                    value={filterType}
-                    onChange={(e) => setFilterType(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-vedic-deep/50 border border-vedic-gold/20 rounded-lg text-vedic-light focus:outline-none focus:border-vedic-gold appearance-none"
-                  >
-                    <option value="all">All Relationships</option>
-                    <option value="partnership">🤝 Partnerships</option>
-                    <option value="familial">👨‍👩‍👧‍👦 Familial</option>
-                    <option value="alliance">⚔️ Alliances</option>
-                    <option value="complementary">🌅 Complementary</option>
-                    <option value="ritual">🔥 Ritual</option>
-                  </select>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-vedic-gold mb-2">Min. strength: {minStrength}%</label>
+                  <input
+                    type="range"
+                    min={0}
+                    max={100}
+                    step={5}
+                    value={minStrength}
+                    onChange={(e) => setMinStrength(parseInt(e.target.value))}
+                    className="w-full slider"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-vedic-gold mb-2">Top N by frequency (0 = all)</label>
+                  <input
+                    type="number"
+                    min={0}
+                    max={200}
+                    value={topN}
+                    onChange={(e) => setTopN(parseInt(e.target.value || '0'))}
+                    className="w-full px-3 py-2 bg-vedic-deep/50 border border-vedic-gold/20 rounded-lg text-vedic-light focus:outline-none focus:border-vedic-gold"
+                  />
+                </div>
+                <div className="flex items-end gap-3">
+                  <button onClick={() => setAutoRotate(v => !v)} className="px-4 py-2 bg-vedic-gold/10 border border-vedic-gold/20 rounded-lg text-vedic-gold">
+                    {autoRotate ? 'Disable' : 'Enable'} Auto-rotate
+                  </button>
+                  <button onClick={() => { setSearchTerm(''); setActiveTypes(['partnership','familial','alliance','complementary','ritual']); setMinStrength(0); setTopN(0); setSelectedDeity(null); }} className="px-4 py-2 bg-vedic-gold/10 border border-vedic-gold/20 rounded-lg text-vedic-gold">
+                    Reset
+                  </button>
+                  <button onClick={fitToSelection} className="px-4 py-2 bg-vedic-gold text-vedic-deep rounded-lg">Fit to selection</button>
                 </div>
               </div>
             </div>
@@ -348,7 +473,7 @@ const DeityNetwork: React.FC = () => {
               </button>
             </div>
             
-            <div className="h-96 md:h-[600px] rounded-lg overflow-hidden bg-vedic-deep/50 border border-vedic-gold/20">
+            <div className="relative h-96 md:h-[600px] rounded-lg overflow-hidden bg-vedic-deep/50 border border-vedic-gold/20">
               <Canvas camera={{ position: [0, 0, 10], fov: 60 }}>
                 {/* Lighting */}
                 <ambientLight intensity={0.4} />
@@ -357,39 +482,76 @@ const DeityNetwork: React.FC = () => {
                 
                 {/* Controls */}
                 <OrbitControls 
+                  ref={controlsRef}
                   enablePan={true}
                   enableZoom={true}
                   enableRotate={true}
+                  autoRotate={autoRotate}
+                  autoRotateSpeed={0.4}
                   minDistance={5}
                   maxDistance={20}
                 />
                 
                 {/* Edges */}
-                {edges.map((edge, index) => (
-                  <Edge
-                    key={index}
-                    start={edge.start}
-                    end={edge.end}
-                    strength={edge.strength}
-                    type={edge.type}
-                  />
-                ))}
+                {edges.map((edge, index) => {
+                  const a = selectedDeity?.id;
+                  const dimmed = a ? false : false;
+                  // Simple highlight: if selected, highlight edges connected to neighbors
+                  let highlighted = false;
+                  if (a) {
+                    const selPos = nodePositions[a];
+                    highlighted = (edge.start === selPos || edge.end === selPos);
+                  }
+                  return (
+                    <Edge
+                      key={index}
+                      start={edge.start}
+                      end={edge.end}
+                      strength={edge.strength}
+                      type={edge.type}
+                      dimmed={a ? !highlighted : false}
+                      highlighted={!!highlighted}
+                    />
+                  );
+                })}
                 
                 {/* Nodes */}
                 {filteredDeities.map(deity => {
                   const pos = nodePositions[deity.id];
                   if (!pos) return null;
+                  const isSel = selectedDeity?.id === deity.id;
+                  const neighborSet = selectedDeity ? neighbors[selectedDeity.id] : undefined;
+                  const isNeighbor = selectedDeity ? neighborSet?.has(deity.id) : false;
+                  const isDimmed = selectedDeity ? !(isSel || isNeighbor) : false;
+                  const showLabel = isSel || hoveredId === deity.id;
                   return (
                     <Node
                       key={deity.id}
                       deity={deity}
                       position={pos}
-                      isSelected={selectedDeity?.id === deity.id}
+                      isSelected={isSel}
+                      isDimmed={!!isDimmed}
+                      isHovered={hoveredId === deity.id}
+                      showLabel={!!showLabel}
+                      onHover={(id) => setHoveredId(id)}
                       onClick={() => handleNodeClick(deity)}
                     />
                   );
                 })}
               </Canvas>
+              {/* Floating legend overlay */}
+              <div className="absolute top-3 left-3 bg-vedic-deep/70 border border-vedic-gold/30 rounded-lg px-3 py-2 text-xs text-vedic-light flex items-center gap-2">
+                {['partnership','familial','alliance','complementary','ritual'].map(t => (
+                  <button
+                    key={t}
+                    onClick={() => setActiveTypes(s => s.includes(t) ? s.filter(x => x !== t) : [...s, t])}
+                    className={`px-2 py-1 rounded ${activeTypes.includes(t) ? 'bg-vedic-gold text-vedic-deep' : 'bg-transparent border border-vedic-gold/30 text-vedic-light'}`}
+                    title={`Toggle ${t}`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
             </div>
             
             {/* Quick Legend */}
@@ -443,7 +605,7 @@ const DeityNetwork: React.FC = () => {
                 className="p-3 bg-vedic-gold/10 border border-vedic-gold/20 rounded-lg text-vedic-gold hover:bg-vedic-gold/20 transition-colors"
                 title="Close details"
               >
-                <ExternalLink className="h-5 w-5" />
+                <X className="h-5 w-5" />
               </button>
             </div>
 
@@ -515,9 +677,9 @@ const DeityNetwork: React.FC = () => {
               <p className="text-sm text-vedic-light/60 mb-4">This deity appears in these specific hymns of the Rig Veda</p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {selectedDeity.hymns.map(hymnId => (
-                  <div key={hymnId} className="p-3 bg-vedic-deep/50 rounded-lg text-center hover:bg-vedic-gold/10 transition-colors cursor-pointer border border-vedic-gold/10">
+                  <Link key={hymnId} to={`/hymn/${hymnId}`} className="p-3 bg-vedic-deep/50 rounded-lg text-center hover:bg-vedic-gold/10 transition-colors border border-vedic-gold/10">
                     <span className="text-vedic-gold font-medium">{hymnId}</span>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

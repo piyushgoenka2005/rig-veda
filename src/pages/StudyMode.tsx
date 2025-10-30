@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import SectionOverlay from '../components/SectionOverlay';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Brain, 
@@ -126,8 +127,9 @@ const StudyMode: React.FC = () => {
   const stats = getStats();
 
   return (
-    <div className="min-h-screen bg-vedic-deep">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-transparent relative">
+      <SectionOverlay opacity={48} blur="sm" />
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

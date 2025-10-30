@@ -120,6 +120,15 @@ export interface StudyCard {
   interval: number;
 }
 
+// Minimal structure used by rigveda_mandala_*.json files
+export interface MandalaSukta {
+  veda: string;
+  mandala: number;
+  sukta: number;
+  text: string; // Full Sanskrit text for the sukta (possibly multi-line)
+  translation?: string; // Optional English translation matching the text lines
+}
+
 export interface AppState {
   currentHymn: Hymn | null;
   selectedDeities: string[];

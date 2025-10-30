@@ -4,28 +4,23 @@ import { motion } from 'framer-motion';
 import { 
   BookOpen, 
   Network, 
-  Palette, 
   Search, 
   Brain, 
-  List,
   Sparkles,
-  ArrowRight,
-  Star,
-  Users,
-  Award
+  ArrowRight
 } from 'lucide-react';
 import { useAppStore } from '../store/appStore';
-import BookAnimation from '../components/BookAnimation';
+// import BookAnimation from '../components/BookAnimation';
 
 const HomePage: React.FC = () => {
-  const { hymns } = useAppStore();
+  const {} = useAppStore();
 
   const features = [
     {
       icon: BookOpen,
       title: "Interactive Hymn Viewer",
       description: "Read Sanskrit, transliteration, and translations side by side with audio sync",
-      link: "/hymn/1.1.1",
+      link: "/mandalas",
       color: "from-vedic-gold to-vedic-saffron"
     },
     {
@@ -34,13 +29,6 @@ const HomePage: React.FC = () => {
       description: "Explore relationships between gods, epithets, and their connections",
       link: "/deities",
       color: "from-vedic-saffron to-vedic-crimson"
-    },
-    {
-      icon: Palette,
-      title: "Theme Explorer",
-      description: "Discover patterns across the corpus with interactive theme mapping",
-      link: "/themes",
-      color: "from-vedic-crimson to-pink-500"
     },
     {
       icon: Search,
@@ -56,33 +44,23 @@ const HomePage: React.FC = () => {
       link: "/study",
       color: "from-purple-500 to-blue-500"
     },
-    {
-      icon: List,
-      title: "Playlist Builder",
-      description: "Create and share curated collections of hymns",
-      link: "/playlists",
-      color: "from-blue-500 to-teal-500"
-    }
   ];
 
-  const stats = [
-    { label: "Hymns", value: hymns.length, icon: BookOpen },
-    { label: "Mandala", value: "10", icon: Star },
-    { label: "Deities", value: "33+", icon: Users },
-    { label: "Prize", value: "₹7,000", icon: Award }
-  ];
+  // Stats removed temporarily for a cleaner hero with background video
 
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-vedic-deep via-vedic-deep/90 to-vedic-deep/80" />
+      <section className="relative min-h-[100vh] pt-32 pb-20 overflow-hidden flex items-center">
+        {/* Subtle pattern overlay */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{
             backgroundImage: `radial-gradient(circle at 1px 1px, #D4AF37 1px, transparent 0)`,
             backgroundSize: '60px 60px'
           }} />
         </div>
+        {/* Additional dark layer to improve text contrast over bright video areas */}
+        <div className="absolute inset-0 bg-black/60 md:bg-black/55" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -92,7 +70,7 @@ const HomePage: React.FC = () => {
           >
             <div className="inline-flex items-center space-x-2 bg-vedic-gold/10 border border-vedic-gold/20 rounded-full px-4 py-2 mb-6">
               <Sparkles className="h-4 w-4 text-vedic-gold" />
-              <span className="text-sm font-medium text-vedic-gold">RigVed Hackathon Entry</span>
+              <span className="text-sm font-medium text-vedic-gold">Another way to explore the RigVeda</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold text-vedic-gold mb-6 text-glow">
@@ -105,46 +83,18 @@ const HomePage: React.FC = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-              <Link to="/hymn/1.1.1" className="btn-primary text-lg px-8 py-4">
-                Start Exploring
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-              <Link to="/themes" className="btn-secondary text-lg px-8 py-4">
-                Explore Themes
+              <Link to="/mandalas" className="btn-primary text-lg px-8 py-4 inline-flex items-center gap-2 whitespace-nowrap">
+                <span>Start Exploring</span>
+                <ArrowRight className="h-5 w-5" />
               </Link>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-vedic-deep/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-vedic-gold/10 border border-vedic-gold/20 rounded-full mb-4">
-                    <Icon className="h-8 w-8 text-vedic-gold" />
-                  </div>
-                  <div className="text-3xl font-bold text-vedic-gold mb-2">{stat.value}</div>
-                  <div className="text-vedic-light/70">{stat.label}</div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* Features Section */}
-      <section className="py-20">
+      <section className="relative py-20">
+        <div className="absolute inset-0 bg-black/45" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -200,22 +150,9 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Book Animation Section */}
-      <section className="py-20 bg-vedic-deep/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <BookAnimation />
-          </motion.div>
-        </div>
-      </section>
-
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-vedic-gold/10 to-vedic-saffron/10">
+      <section className="relative py-20">
+        <div className="absolute inset-0 bg-black/38" />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -31,6 +31,150 @@ export const sampleHymns: Hymn[] = [
     places: [],
     ritualContext: "Daily Agnihotra"
   },
+  // Minimal placeholder hymns to populate mandalas 2-10
+  {
+    id: "2.1.1",
+    mandala: 2,
+    sukta: 1,
+    rishi: "Gritsamada",
+    devata: "Indra",
+    meter: "Gayatri",
+    verses: [
+      {
+        id: "2.1.1.1",
+        number: 1,
+        sanskrit: "इन्द्रं वर्धन्तो अप्तुरः",
+        transliteration: "indraṃ vardhanto apturaḥ",
+        translations: { griffith: "Praising Indra, the active strengthen him" },
+        meter: "Gayatri",
+        syllables: [8,8,8]
+      }
+    ],
+    themes: ["battle"],
+    deities: ["Indra"],
+    epithets: ["vṛtrahan"],
+    places: []
+  },
+  {
+    id: "3.1.1",
+    mandala: 3,
+    sukta: 1,
+    rishi: "Vishvamitra",
+    devata: "Agni",
+    meter: "Gayatri",
+    verses: [
+      { id: "3.1.1.1", number: 1, sanskrit: "अग्निं नरो दीध्यत", transliteration: "agniṃ naro dīdhiyata", translations: { griffith: "Men kindle Agni" }, meter: "Gayatri", syllables: [8,8,8] }
+    ],
+    themes: ["fire"],
+    deities: ["Agni"],
+    epithets: ["jātavedas"],
+    places: []
+  },
+  {
+    id: "4.1.1",
+    mandala: 4,
+    sukta: 1,
+    rishi: "Vāmadeva",
+    devata: "Indra",
+    meter: "Tristubh",
+    verses: [
+      { id: "4.1.1.1", number: 1, sanskrit: "इन्द्रं वर्धन्तो", transliteration: "indraṃ vardhanto", translations: { griffith: "Extolling Indra" }, meter: "Tristubh", syllables: [11,11,11,11] }
+    ],
+    themes: ["battle"],
+    deities: ["Indra"],
+    epithets: ["śatakratu"],
+    places: []
+  },
+  {
+    id: "5.1.1",
+    mandala: 5,
+    sukta: 1,
+    rishi: "Atri",
+    devata: "Soma",
+    meter: "Gayatri",
+    verses: [
+      { id: "5.1.1.1", number: 1, sanskrit: "सोमं मन्ये", transliteration: "somaṃ manye", translations: { griffith: "I deem Soma" }, meter: "Gayatri", syllables: [8,8,8] }
+    ],
+    themes: ["elixir"],
+    deities: ["Soma"],
+    epithets: ["pavamāna"],
+    places: []
+  },
+  {
+    id: "6.1.1",
+    mandala: 6,
+    sukta: 1,
+    rishi: "Bharadvāja",
+    devata: "Agni",
+    meter: "Gayatri",
+    verses: [
+      { id: "6.1.1.1", number: 1, sanskrit: "अग्ने यं यातुधान", transliteration: "agne yaṃ yātudhāna", translations: { griffith: "Agni, whom the sorcerer" }, meter: "Gayatri", syllables: [8,8,8] }
+    ],
+    themes: ["fire"],
+    deities: ["Agni"],
+    epithets: ["vaiśvānara"],
+    places: []
+  },
+  {
+    id: "7.1.1",
+    mandala: 7,
+    sukta: 1,
+    rishi: "Vasiṣṭha",
+    devata: "Indra",
+    meter: "Tristubh",
+    verses: [
+      { id: "7.1.1.1", number: 1, sanskrit: "इन्द्रं गीर्भिर्नव्यम", transliteration: "indraṃ gīrbhir navyam", translations: { griffith: "With songs anew to Indra" }, meter: "Tristubh", syllables: [11,11,11,11] }
+    ],
+    themes: ["battle"],
+    deities: ["Indra"],
+    epithets: ["maghavan"],
+    places: []
+  },
+  {
+    id: "8.1.1",
+    mandala: 8,
+    sukta: 1,
+    rishi: "Kaṇva",
+    devata: "Ashvins",
+    meter: "Gayatri",
+    verses: [
+      { id: "8.1.1.1", number: 1, sanskrit: "अश्विना वर्त्रहणा", transliteration: "aśvinā vṛtrahanā", translations: { griffith: "Ashvins, slayers of obstruction" }, meter: "Gayatri", syllables: [8,8,8] }
+    ],
+    themes: ["healing"],
+    deities: ["Ashvins"],
+    epithets: ["nāsatyau"],
+    places: []
+  },
+  {
+    id: "9.1.1",
+    mandala: 9,
+    sukta: 1,
+    rishi: "Various",
+    devata: "Soma",
+    meter: "Gayatri",
+    verses: [
+      { id: "9.1.1.1", number: 1, sanskrit: "सोमः पुनान", transliteration: "somaḥ punāna", translations: { griffith: "Soma purifying" }, meter: "Gayatri", syllables: [8,8,8] }
+    ],
+    themes: ["elixir"],
+    deities: ["Soma"],
+    epithets: ["amṛta"],
+    places: []
+  },
+  {
+    id: "10.1.1",
+    mandala: 10,
+    sukta: 1,
+    rishi: "Various",
+    devata: "Varuna",
+    meter: "Tristubh",
+    verses: [
+      { id: "10.1.1.1", number: 1, sanskrit: "वरुणं वो ऋतस्पतिम", transliteration: "varuṇaṃ vo ṛtaspatiṃ", translations: { griffith: "To Varuna, lord of order" }, meter: "Tristubh", syllables: [11,11,11,11] }
+    ],
+    themes: ["cosmic order"],
+    deities: ["Varuna"],
+    epithets: ["ṛta"],
+    places: []
+  },
   {
     id: "1.2.1",
     mandala: 1,
