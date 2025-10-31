@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 const KeyboardShortcuts: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { hymns, getHymnById } = useAppStore();
+  const { hymns } = useAppStore();
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {

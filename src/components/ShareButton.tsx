@@ -49,7 +49,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ hymn, verse, className = '' }
   };
 
   const shareNative = async () => {
-    if (navigator.share) {
+    if (typeof navigator !== 'undefined' && 'share' in navigator && typeof navigator.share === 'function') {
       try {
         await navigator.share({
           title: hymn ? `${hymn.id} - ${hymn.devata}` : 'Rig Veda Explorer',
@@ -81,7 +81,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ hymn, verse, className = '' }
   const shareOptions = [
     {
       icon: Share2,
-      label: navigator.share ? 'Share' : 'Copy Link',
+      label: typeof navigator !== 'undefined' && 'share' in navigator && typeof navigator.share === 'function' ? 'Share' : 'Copy Link',
       action: shareNative,
       color: 'text-blue-400'
     },

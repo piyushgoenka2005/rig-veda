@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, Volume2, ArrowRight, Sparkles } from 'lucide-react';
+import { Pause, Volume2, ArrowRight, Sparkles } from 'lucide-react';
 import { useAppStore } from '../store/appStore';
 import { Hymn, Verse } from '../types/vedic';
 

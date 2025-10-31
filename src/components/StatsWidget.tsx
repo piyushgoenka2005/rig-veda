@@ -15,7 +15,6 @@ interface StatCardProps {
 
 const StatCard: React.FC<StatCardProps> = ({ icon: Icon, label, value, description, link, delay = 0 }) => {
   const [displayValue, setDisplayValue] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (typeof value === 'number') {
@@ -47,8 +46,6 @@ const StatCard: React.FC<StatCardProps> = ({ icon: Icon, label, value, descripti
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
       className="card hover:border-vedic-gold/50 transition-all duration-300 group cursor-pointer"
     >
       <div className="flex items-start justify-between mb-4">

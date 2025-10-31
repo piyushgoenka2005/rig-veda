@@ -12,8 +12,7 @@ import {
   BookOpen,
   User,
   Clock,
-  Star,
-  Share2
+  Star
 } from 'lucide-react';
 import { useAppStore } from '../store/appStore';
 import { Hymn } from '../types/vedic';

@@ -18,7 +18,7 @@ const QuickAccessToolbar: React.FC = () => {
   const [showSearch, setShowSearch] = useState(false);
   const navigate = useNavigate();
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const { hymns, getHymnById } = useAppStore();
+  const { hymns } = useAppStore();
 
   useEffect(() => {
     if (showSearch && searchInputRef.current) {
