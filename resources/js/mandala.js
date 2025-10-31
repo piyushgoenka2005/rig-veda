@@ -156,14 +156,6 @@ function getNavbarHTML(mandalaTitle, mandalaNum) {
                         <i class="fas fa-project-diagram"></i>
                         <span>Deity Network</span>
                     </a>
-                    <a href="/concordance" class="navbar-link">
-                        <i class="fas fa-search"></i>
-                        <span>Concordance</span>
-                    </a>
-                    <a href="/study" class="navbar-link">
-                        <i class="fas fa-brain"></i>
-                        <span>Study Mode</span>
-                    </a>
                 </div>
 
                 <div class="navbar-badges">

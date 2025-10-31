@@ -7,10 +7,7 @@ An interactive web application for exploring the Rig Veda through modern visuali
 ### Core Functionality
 - **Interactive Hymn Viewer**: Parallel pane display with Sanskrit, transliteration, and multiple translations
 - **Deity Network Visualization**: 3D network graph showing relationships between Vedic deities using Three.js
-- **Theme Explorer**: Interactive sliders to map themes across the corpus with real-time filtering
-- **Concordance Search**: N-gram search, epithet exploration, and word relationship analysis
-- **Study Mode**: Spaced repetition flashcards for learning verses, epithets, and meters
-- **Playlist Builder**: Create and share curated collections of hymns
+- **Landscape Feature**: 3D viewer to view the temples and gain knowledge aboyt each and every deity present in that temple
 
 ### Technical Highlights
 - **React + TypeScript**: Modern, type-safe development

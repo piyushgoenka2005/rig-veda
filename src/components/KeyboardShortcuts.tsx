@@ -68,11 +68,9 @@ const KeyboardShortcuts: React.FC = () => {
   }, [navigate, hymns, showModal]);
 
   const shortcuts = [
-    { keys: ['?'], description: 'Show keyboard shortcuts' },
     { keys: ['1'], description: 'Go to Home' },
     { keys: ['2'], description: 'Go to Mandalas' },
     { keys: ['3'], description: 'Go to Deities' },
-    { keys: ['4'], description: 'Go to Study Mode' },
     { keys: ['R'], description: 'Random hymn' },
     { keys: ['Esc'], description: 'Close modals/dialogs' },
   ];

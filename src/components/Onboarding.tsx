@@ -214,16 +214,8 @@ const Onboarding: React.FC<OnboardingProps> = ({ onClose }) => {
               <p className="text-sm text-vedic-light/70">Begin with the first hymn (1.1.1) to Agni</p>
             </div>
             <div className="card">
-              <h3 className="font-semibold text-vedic-gold mb-2">🔍 Explore Themes</h3>
-              <p className="text-sm text-vedic-light/70">Use sliders to find hymns by theme</p>
-            </div>
-            <div className="card">
               <h3 className="font-semibold text-vedic-gold mb-2">🌐 Deity Network</h3>
               <p className="text-sm text-vedic-light/70">Visualize relationships between gods</p>
-            </div>
-            <div className="card">
-              <h3 className="font-semibold text-vedic-gold mb-2">🧠 Study Mode</h3>
-              <p className="text-sm text-vedic-light/70">Create flashcards for learning</p>
             </div>
           </div>
         </div>
