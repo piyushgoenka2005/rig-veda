@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { PointerLockControls, KeyboardControls, useKeyboardControls, useGLTF, Sky, Stars, Html } from '@react-three/drei'
+import { PointerLockControls, KeyboardControls, useKeyboardControls, useGLTF, Sky, Stars } from '@react-three/drei'
 import { Suspense, useEffect, useMemo, useRef, useState, forwardRef } from 'react'
 import * as THREE from 'three'
 import './Landscape.css'
@@ -28,7 +28,7 @@ interface LandscapeRef {
   boundingBox?: THREE.Box3;
 }
 
-const Landscape = forwardRef<THREE.Object3D>((props, ref) => {
+const Landscape = forwardRef<THREE.Object3D>((_props, ref) => {
   const gltf = useGLTF('/landscape.glb')
   const scene = useMemo(() => {
     const cloned = gltf.scene.clone(true)
@@ -69,7 +69,7 @@ function TempleWithPillar({ deity, x, z, landscapeRef, onInteract }: {
   const templeGroup = useRef<THREE.Group>(null)
   const pillarGroup = useRef<THREE.Group>(null)
   const { camera, raycaster } = useThree()
-  const [, getKeys] = useKeyboardControls<{ interact: boolean }>()
+  const [, getKeys] = useKeyboardControls()
   const [templeY, setTempleY] = useState<number | null>(null)
   const [pillarY, setPillarY] = useState<number | null>(null)
   
@@ -347,7 +347,7 @@ function PlayerControls({ speed = 15, sprintMultiplier = 2, landscapeRef }: {
   landscapeRef: React.MutableRefObject<LandscapeRef>;
 }) {
   const { camera, raycaster } = useThree()
-  const [, getKeys] = useKeyboardControls<{ forward: boolean; backward: boolean; left: boolean; right: boolean; sprint: boolean }>()
+  const [, getKeys] = useKeyboardControls()
   const velocity = useRef(new THREE.Vector3())
   const minHeight = 20.0
   const boundsMargin = 2
