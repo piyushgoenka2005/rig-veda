@@ -15,6 +15,10 @@
     {
       "source": "/:mandala(\\d+)/:hymn.html",
       "destination": "/:mandala/:hymn.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
