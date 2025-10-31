@@ -115,7 +115,7 @@ const StatsWidget: React.FC = () => {
       label: 'Total Hymns',
       value: totalHymns,
       description: 'Available for exploration',
-      link: '/mandalas',
+      link: '/mandalas.html',
       delay: 0
     },
     {
@@ -144,8 +144,8 @@ const StatsWidget: React.FC = () => {
   ];
 
   return (
-    <section className="relative py-12">
-      <div className="absolute inset-0 bg-black/30" />
+    <section className="relative py-12">  
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

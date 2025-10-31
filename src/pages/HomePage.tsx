@@ -13,7 +13,6 @@ import {
   Heart
 } from 'lucide-react';
 import { useAppStore } from '../store/appStore';
-import FeaturedHymn from '../components/FeaturedHymn';
 import MantraParticles from '../components/MantraParticles';
 import StatsWidget from '../components/StatsWidget';
 
@@ -171,15 +170,6 @@ const HomePage: React.FC = () => {
               </div>
             </motion.div>
           </motion.div>
-
-          {/* Featured Hymn of the Day */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.8 }}
-          >
-            <FeaturedHymn />
-          </motion.div>
         </div>
       </section>
 
@@ -223,6 +213,9 @@ const HomePage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {features.map((feature, index) => {
+              // Use full page reload for Interactive Hymn Viewer (Mandalas)
+              const useFullReload = feature.link === "/mandalas";
+              
               return (
                 <motion.div
                   key={feature.title}
@@ -231,70 +224,137 @@ const HomePage: React.FC = () => {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <Link to={feature.link} className="group block h-full">
-                    <div className={`
-                      relative h-full rounded-3xl p-8
-                      bg-gradient-to-br ${feature.bgGradient}
-                      border border-white/10 backdrop-blur-xl
-                      transition-all duration-500
-                      group-hover:border-white/30
-                      group-hover:scale-[1.02]
-                      group-hover:shadow-2xl
-                      overflow-hidden
-                    `}>
-                      {/* Animated gradient overlay on hover */}
-                      <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                      
-                      {/* Glow effect */}
-                      <div className={`absolute -inset-1 bg-gradient-to-r ${feature.gradient} rounded-3xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
-                      
-                      {/* Content */}
-                      <div className="relative z-10">
-                        <div className="flex items-start justify-between mb-6">
-                          <div className={`
-                            w-20 h-20 rounded-2xl
-                            bg-gradient-to-br ${feature.gradient}
-                            flex items-center justify-center
-                            shadow-lg group-hover:scale-110 group-hover:rotate-6
-                            transition-all duration-500
-                          `}>
-                            <span className="text-4xl">{feature.emoji}</span>
+                  {useFullReload ? (
+                    <a href="/mandalas.html" className="group block h-full">
+                      <div className={`
+                        relative h-full rounded-3xl p-8
+                        bg-gradient-to-br ${feature.bgGradient}
+                        border border-white/10 backdrop-blur-xl
+                        transition-all duration-500
+                        group-hover:border-white/30
+                        group-hover:scale-[1.02]
+                        group-hover:shadow-2xl
+                        overflow-hidden
+                      `}>
+                        {/* Animated gradient overlay on hover */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                        
+                        {/* Glow effect */}
+                        <div className={`absolute -inset-1 bg-gradient-to-r ${feature.gradient} rounded-3xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
+                        
+                        {/* Content */}
+                        <div className="relative z-10">
+                          <div className="flex items-start justify-between mb-6">
+                            <div className={`
+                              w-20 h-20 rounded-2xl
+                              bg-gradient-to-br ${feature.gradient}
+                              flex items-center justify-center
+                              shadow-lg group-hover:scale-110 group-hover:rotate-6
+                              transition-all duration-500
+                            `}>
+                              <span className="text-4xl">{feature.emoji}</span>
+                            </div>
+                            <div className={`
+                              w-12 h-12 rounded-xl
+                              bg-white/5 border border-white/10
+                              flex items-center justify-center
+                              group-hover:bg-white/10
+                              transition-all duration-300
+                            `}>
+                              <ArrowRight className={`h-6 w-6 text-transparent bg-clip-text bg-gradient-to-r ${feature.gradient} group-hover:translate-x-2 transition-transform`} />
+                            </div>
                           </div>
-                          <div className={`
-                            w-12 h-12 rounded-xl
-                            bg-white/5 border border-white/10
-                            flex items-center justify-center
-                            group-hover:bg-white/10
-                            transition-all duration-300
+                          
+                          <h3 className={`
+                            text-2xl font-bold mb-4
+                            text-transparent bg-clip-text bg-gradient-to-r ${feature.gradient}
+                            group-hover:scale-105 transition-transform duration-300
                           `}>
-                            <ArrowRight className={`h-6 w-6 text-transparent bg-clip-text bg-gradient-to-r ${feature.gradient} group-hover:translate-x-2 transition-transform`} />
+                            {feature.title}
+                          </h3>
+                          
+                          <p className="text-white/70 mb-6 leading-relaxed text-lg">
+                            {feature.description}
+                          </p>
+                          
+                          <div className={`
+                            inline-flex items-center gap-2
+                            text-sm font-semibold
+                            text-transparent bg-clip-text bg-gradient-to-r ${feature.gradient}
+                            group-hover:gap-3 transition-all duration-300
+                          `}>
+                            <span>Explore Now</span>
+                            <ArrowRight className="h-4 w-4" />
                           </div>
-                        </div>
-                        
-                        <h3 className={`
-                          text-2xl font-bold mb-4
-                          text-transparent bg-clip-text bg-gradient-to-r ${feature.gradient}
-                          group-hover:scale-105 transition-transform duration-300
-                        `}>
-                          {feature.title}
-                        </h3>
-                        
-                        <p className="text-white/70 mb-6 leading-relaxed text-lg">
-                          {feature.description}
-                        </p>
-                        
-                        <div className={`
-                          inline-flex items-center gap-2
-                          text-sm font-semibold
-                          text-transparent bg-clip-text bg-gradient-to-r ${feature.gradient}
-                          group-hover:gap-3 transition-all duration-300
-                        `}>
-                          <span>Explore Now</span>
-                          <ArrowRight className="h-4 w-4" />
                         </div>
                       </div>
-                    </div>
-                  </Link>
+                    </a>
+                  ) : (
+                    <Link to={feature.link} className="group block h-full">
+                      <div className={`
+                        relative h-full rounded-3xl p-8
+                        bg-gradient-to-br ${feature.bgGradient}
+                        border border-white/10 backdrop-blur-xl
+                        transition-all duration-500
+                        group-hover:border-white/30
+                        group-hover:scale-[1.02]
+                        group-hover:shadow-2xl
+                        overflow-hidden
+                      `}>
+                        {/* Animated gradient overlay on hover */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                        
+                        {/* Glow effect */}
+                        <div className={`absolute -inset-1 bg-gradient-to-r ${feature.gradient} rounded-3xl blur-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
+                        
+                        {/* Content */}
+                        <div className="relative z-10">
+                          <div className="flex items-start justify-between mb-6">
+                            <div className={`
+                              w-20 h-20 rounded-2xl
+                              bg-gradient-to-br ${feature.gradient}
+                              flex items-center justify-center
+                              shadow-lg group-hover:scale-110 group-hover:rotate-6
+                              transition-all duration-500
+                            `}>
+                              <span className="text-4xl">{feature.emoji}</span>
+                            </div>
+                            <div className={`
+                              w-12 h-12 rounded-xl
+                              bg-white/5 border border-white/10
+                              flex items-center justify-center
+                              group-hover:bg-white/10
+                              transition-all duration-300
+                            `}>
+                              <ArrowRight className={`h-6 w-6 text-transparent bg-clip-text bg-gradient-to-r ${feature.gradient} group-hover:translate-x-2 transition-transform`} />
+                            </div>
+                          </div>
+                          
+                          <h3 className={`
+                            text-2xl font-bold mb-4
+                            text-transparent bg-clip-text bg-gradient-to-r ${feature.gradient}
+                            group-hover:scale-105 transition-transform duration-300
+                          `}>
+                            {feature.title}
+                          </h3>
+                          
+                          <p className="text-white/70 mb-6 leading-relaxed text-lg">
+                            {feature.description}
+                          </p>
+                          
+                          <div className={`
+                            inline-flex items-center gap-2
+                            text-sm font-semibold
+                            text-transparent bg-clip-text bg-gradient-to-r ${feature.gradient}
+                            group-hover:gap-3 transition-all duration-300
+                          `}>
+                            <span>Explore Now</span>
+                            <ArrowRight className="h-4 w-4" />
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  )}
                 </motion.div>
               );
             })}
