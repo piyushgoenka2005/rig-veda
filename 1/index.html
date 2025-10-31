@@ -9,9 +9,6 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/resources/css/rv-mandala.css">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -19,26 +16,34 @@
 </head>
 
 <body>
-    <!-- Background Video -->
-    <video id="background-video" autoplay muted loop playsinline>
-        <source src="/Video_Generation_Complete.mp4" type="video/mp4">
-    </video>
-    <div id="video-overlay"></div>
-
     <!-- SCROLL BAR -->
     <div class="progess-bar-header">
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
     </div>
-    
-    <!-- Legacy Navigation (Hidden but kept for structure) -->
-    <div style="display: none" class="mt-10">
-        <h2>MANDALA 1</h2>
-        <a href="/" class="btn btn-nav"><span class="fa fa-arrow-left"></span></a>
-        <a href="/mandalas.html" class="btn btn-nav"><span class="fa fa-home"></span></a>
-        <a href="/2/index.html" class="btn btn-nav"><span class="fa fa-arrow-right"></span></a>
-    </div>
+    <!-- NAVBAR -->
+    <nav class="navbar shadow-lg px-2 py-3" id="navbar">
+
+        <div class="col-1">
+            <a href="/" class="btn btn-nav btn-secondary-outline"><span class="fa fa-arrow-left"></span></a>
+        </div>
+
+        <div class="col-1">
+            <a href="/" class="btn btn-nav btn-secondary-outline"><span class="fa fa-home"></span></a>
+        </div>
+
+        <div class="col-8">
+            <h2>MANDALA 1</h2>
+        </div>
+
+        <div class="col-1">
+            <a href="" class="btn btn-nav btn-secondary-outline"><span class="fa fa-info-circle"></span></a>
+        </div>
+        <div class="col-1">
+            <a href="/2/index.html" class="btn btn-nav btn-secondary-outline"><span class="fa fa-arrow-right"></span></a>
+        </div>
+    </nav>
     <div class="container">
         <div class="row">
             

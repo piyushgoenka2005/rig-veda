@@ -115,7 +115,7 @@ const StatsWidget: React.FC = () => {
       label: 'Total Hymns',
       value: totalHymns,
       description: 'Available for exploration',
-      link: '/mandalas.html',
+      link: '/mandalas',
       delay: 0
     },
     {
