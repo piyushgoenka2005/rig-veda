@@ -4,8 +4,6 @@ import { motion } from 'framer-motion';
 import { 
   BookOpen, 
   Network, 
-  Search, 
-  Brain, 
   Sparkles,
   ArrowRight,
   TrendingUp,
@@ -37,24 +35,6 @@ const HomePage: React.FC = () => {
       gradient: "from-purple-500 via-pink-500 to-rose-500",
       bgGradient: "from-purple-500/10 via-pink-500/10 to-rose-500/10",
       emoji: "🌌"
-    },
-    {
-      icon: Search,
-      title: "Concordance",
-      description: "Search n-grams, epithets, and explore word relationships",
-      link: "/concordance",
-      gradient: "from-cyan-500 via-blue-500 to-indigo-500",
-      bgGradient: "from-cyan-500/10 via-blue-500/10 to-indigo-500/10",
-      emoji: "🔍"
-    },
-    {
-      icon: Brain,
-      title: "Study Mode",
-      description: "Create flashcards and spaced repetition for learning",
-      link: "/study",
-      gradient: "from-emerald-500 via-teal-500 to-cyan-500",
-      bgGradient: "from-emerald-500/10 via-teal-500/10 to-cyan-500/10",
-      emoji: "🧠"
     },
     {
       icon: BookOpen,

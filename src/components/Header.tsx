@@ -3,9 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, 
   BookOpen, 
-  Network, 
-  Search, 
-  Brain,
+  Network,
   Menu,
   X,
   Sparkles,
@@ -24,8 +22,6 @@ const Header: React.FC = () => {
     { path: '/', label: 'Home', icon: Home, fullReload: false },
     { path: '/mandalas.html', label: 'Mandalas', icon: BookOpen, fullReload: true },
     { path: '/deities', label: 'Deity Network', icon: Network, fullReload: false },
-    { path: '/concordance', label: 'Concordance', icon: Search, fullReload: false },
-    { path: '/study', label: 'Study Mode', icon: Brain, fullReload: false },
   ];
 
   const isActive = (path: string) => {
