@@ -46,25 +46,41 @@ const StatCard: React.FC<StatCardProps> = ({ icon: Icon, label, value, descripti
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay }}
-      className="card hover:border-vedic-gold/50 transition-all duration-300 group cursor-pointer"
+      className="
+        relative rounded-2xl p-6
+        bg-gradient-to-br from-white/5 via-white/5 to-white/0
+        border border-white/10 backdrop-blur-xl
+        hover:border-white/30
+        hover:scale-105
+        transition-all duration-300 
+        group cursor-pointer
+        overflow-hidden
+      "
     >
-      <div className="flex items-start justify-between mb-4">
-        <div className="p-3 bg-vedic-gold/20 rounded-lg group-hover:bg-vedic-gold/30 transition-colors">
-          <Icon className="h-6 w-6 text-vedic-gold" />
-        </div>
-        {link && (
-          <ArrowRight className="h-5 w-5 text-vedic-gold/50 group-hover:text-vedic-gold group-hover:translate-x-1 transition-all" />
-        )}
-      </div>
+      {/* Gradient glow on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       
-      <div className="space-y-1">
-        <p className="text-3xl font-bold text-vedic-gold">
-          {typeof value === 'number' ? displayValue.toLocaleString() : value}
-        </p>
-        <p className="text-sm font-medium text-vedic-light/90">{label}</p>
-        {description && (
-          <p className="text-xs text-vedic-light/60 mt-2">{description}</p>
-        )}
+      <div className="relative z-10">
+        <div className="flex items-start justify-between mb-6">
+          <div className="p-4 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-2xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+            <Icon className="h-7 w-7 text-white" />
+          </div>
+          {link && (
+            <div className="p-2 bg-white/5 rounded-xl border border-white/10 group-hover:border-white/30 transition-all">
+              <ArrowRight className="h-5 w-5 text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all" />
+            </div>
+          )}
+        </div>
+        
+        <div className="space-y-2">
+          <p className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
+            {typeof value === 'number' ? displayValue.toLocaleString() : value}
+          </p>
+          <p className="text-base font-bold text-white/90">{label}</p>
+          {description && (
+            <p className="text-sm text-white/60 mt-2">{description}</p>
+          )}
+        </div>
       </div>
     </motion.div>
   );
@@ -138,11 +154,13 @@ const StatsWidget: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-8"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-vedic-gold mb-3">
-            Explore the Numbers
+          <h2 className="text-4xl md:text-5xl font-black mb-4">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
+              Explore the Numbers
+            </span>
           </h2>
-          <p className="text-vedic-light/70 max-w-2xl mx-auto">
-            Discover the scale and depth of the Rig Veda collection
+          <p className="text-white/70 text-lg max-w-2xl mx-auto">
+            Discover the <span className="font-bold text-vedic-gold">scale and depth</span> of the Rig Veda collection
           </p>
         </motion.div>
 

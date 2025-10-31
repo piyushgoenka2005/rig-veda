@@ -9,7 +9,7 @@
   
   body {
     font-family: 'Playfair Display', serif;
-    background: linear-gradient(135deg, #2C1810 0%, #1a0f08 100%);
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a0f08 50%, #2C1810 100%);
     min-height: 100vh;
   }
   

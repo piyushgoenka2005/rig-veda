@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import SectionOverlay from '../components/SectionOverlay';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -217,8 +216,9 @@ const HymnViewer: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-transparent relative">
-      <SectionOverlay opacity={48} blur="sm" />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Video overlay for better text readability */}
+      <div className="fixed inset-0 bg-gradient-to-br from-vedic-deep/48 via-vedic-deep/48 to-vedic-deep/94 -z-[9] pointer-events-none" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import SectionOverlay from '../components/SectionOverlay';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Loader from '../components/Loader';
@@ -82,8 +81,9 @@ const MandalaDetail: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-transparent relative">
-      <SectionOverlay opacity={48} blur="sm" />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Video overlay for better text readability */}
+      <div className="fixed inset-0 bg-gradient-to-br from-vedic-deep/48 via-vedic-deep/48 to-vedic-deep/94 -z-[9] pointer-events-none" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 z-10">
         <div className="flex items-center justify-between mb-8">
           <button onClick={() => navigate(-1)} className="px-3 py-2 rounded-lg bg-vedic-gold/10 border border-vedic-gold/20 text-vedic-gold hover:bg-vedic-gold/20 transition-colors">
             ← Back

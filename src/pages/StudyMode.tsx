@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import SectionOverlay from '../components/SectionOverlay';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Brain, 
@@ -128,8 +127,11 @@ const StudyMode: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-transparent relative">
-      <SectionOverlay opacity={48} blur="sm" />
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Video overlay for better text readability - matches mandala pages overlay */}
+      <div className="fixed inset-0 bg-gradient-to-br from-vedic-deep/10 to-vedic-deep/10 via-vedic-deep/10 -z-[9] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 z-10">
+        
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

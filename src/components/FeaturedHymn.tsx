@@ -137,27 +137,42 @@ const FeaturedHymn: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.3 }}
-      className="relative max-w-4xl mx-auto"
+      className="relative max-w-5xl mx-auto"
     >
-      {/* Badge */}
+      {/* Badge - Modernized */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.5 }}
-        className="inline-flex items-center space-x-2 bg-vedic-gold/20 border border-vedic-gold/40 rounded-full px-4 py-2 mb-6"
+        className="inline-flex items-center space-x-3 mb-8 px-6 py-3 rounded-full 
+                   bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-orange-500/20 
+                   border border-white/20 backdrop-blur-xl shadow-lg"
       >
-        <Sparkles className="h-4 w-4 text-vedic-gold animate-pulse" />
-        <span className="text-sm font-medium text-vedic-gold">Hymn of the Day</span>
-        <span className="hidden sm:inline text-xs text-vedic-light/60">• Mandala {featuredHymn.mandala} • {featuredHymn.devata}</span>
+        <Sparkles className="h-5 w-5 text-purple-400 animate-pulse" />
+        <span className="text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+          Hymn of the Day
+        </span>
+        <span className="hidden sm:inline text-sm text-white/60">• Mandala {featuredHymn.mandala} • {featuredHymn.devata}</span>
       </motion.div>
 
-      {/* Hymn Content Card */}
+      {/* Hymn Content Card - Modernized */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="card border-2 border-vedic-gold/30 hover:border-vedic-gold/60 transition-all duration-300 backdrop-blur-lg"
+        className="relative rounded-3xl p-8 md:p-12
+                   bg-gradient-to-br from-white/5 via-white/5 to-white/0
+                   border border-white/20 backdrop-blur-2xl
+                   shadow-2xl shadow-purple-500/10
+                   hover:shadow-purple-500/20
+                   hover:border-white/30
+                   transition-all duration-500
+                   overflow-hidden
+                   group"
       >
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-orange-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
         {/* Sanskrit Text */}
         <AnimatePresence mode="wait">
           {(revealState === 'sanskrit' || revealState === 'translation' || revealState === 'complete') && (
@@ -169,14 +184,16 @@ const FeaturedHymn: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="mb-6"
             >
-              <p className="sanskrit-text text-2xl sm:text-3xl md:text-4xl text-vedic-gold text-center leading-relaxed mb-4 break-words">
-                {currentVerse.sanskrit}
-              </p>
-              {showTransliteration && (
-                <p className="transliteration text-base sm:text-lg md:text-xl text-center text-vedic-light/70 italic mb-2 break-words">
-                  {currentVerse.transliteration}
+              <div className="relative z-10">
+                <p className="sanskrit-text text-3xl sm:text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-vedic-gold via-vedic-saffron to-orange-400 text-center leading-relaxed mb-4 break-words font-bold drop-shadow-lg">
+                  {currentVerse.sanskrit}
                 </p>
-              )}
+                {showTransliteration && (
+                  <p className="text-base sm:text-lg md:text-xl text-center text-white/60 italic mb-2 break-words font-light">
+                    {currentVerse.transliteration}
+                  </p>
+                )}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -192,11 +209,15 @@ const FeaturedHymn: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mb-6"
             >
-              {showTranslation && translationText && (
-                <p className="text-base sm:text-lg md:text-xl text-vedic-light/90 text-center leading-relaxed font-serif break-words px-2">
-                  "{translationText}"
-                </p>
-              )}
+              <div className="relative z-10">
+                {showTranslation && translationText && (
+                  <p className="text-lg sm:text-xl md:text-2xl text-white/90 text-center leading-relaxed break-words px-2 font-light italic">
+                    <span className="text-vedic-gold text-4xl">"</span>
+                    {translationText}
+                    <span className="text-vedic-gold text-4xl">"</span>
+                  </p>
+                )}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -206,53 +227,83 @@ const FeaturedHymn: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
+          className="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-4 mt-10"
         >
-          {/* Audio Button */}
-          <button
-            onClick={isPlaying ? stopAudio : playAudio}
-            disabled={!voicesLoaded}
-            className="group flex items-center space-x-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-vedic-gold/20 hover:bg-vedic-gold/30 border border-vedic-gold/40 hover:border-vedic-gold/60 rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-            aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
-          >
-            {isPlaying ? (
-              <>
-                <Pause className="h-5 w-5 text-vedic-gold group-hover:scale-110 transition-transform" />
-                <span className="text-vedic-gold font-medium">Pause</span>
-              </>
-            ) : (
-              <>
-                <Volume2 className="h-5 w-5 text-vedic-gold group-hover:scale-110 transition-transform" />
-                <span className="text-vedic-gold font-medium">Listen</span>
-              </>
-            )}
-          </button>
+            {/* Audio Button - Modernized */}
+            <button
+              onClick={isPlaying ? stopAudio : playAudio}
+              disabled={!voicesLoaded}
+              className="
+                group relative flex items-center space-x-3 px-8 py-4 
+                bg-gradient-to-r from-cyan-500/20 to-purple-500/20
+                border border-white/20 rounded-2xl
+                backdrop-blur-xl
+                hover:from-cyan-500/30 hover:to-purple-500/30
+                hover:border-white/40
+                hover:scale-110
+                active:scale-95
+                transition-all duration-300 
+                disabled:opacity-50 disabled:cursor-not-allowed
+                overflow-hidden
+              "
+              aria-label={isPlaying ? 'Pause audio' : 'Play audio'}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              {isPlaying ? (
+                <>
+                  <Pause className="h-6 w-6 text-cyan-400 relative z-10 group-hover:scale-110 transition-transform" />
+                  <span className="text-white font-bold relative z-10">Pause</span>
+                </>
+              ) : (
+                <>
+                  <Volume2 className="h-6 w-6 text-cyan-400 relative z-10 group-hover:scale-110 transition-transform" />
+                  <span className="text-white font-bold relative z-10">Listen</span>
+                </>
+              )}
+            </button>
 
-          {/* Explore Button */}
-          <Link
-            to={`/hymn/${featuredHymn.id}`}
-            className="group flex items-center space-x-2 btn-primary"
-          >
-            <span>Explore Full Hymn</span>
-            <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+            {/* Explore Button - Modernized */}
+            <Link
+              to={`/hymn/${featuredHymn.id}`}
+              className="
+                group relative flex items-center space-x-3 px-10 py-4
+                bg-gradient-to-r from-vedic-gold to-vedic-saffron
+                text-vedic-deep font-bold text-lg
+                rounded-2xl
+                shadow-2xl shadow-vedic-gold/50
+                hover:shadow-vedic-gold/70
+                hover:scale-110
+                active:scale-95
+                transition-all duration-300
+                overflow-hidden
+              "
+            >
+              <span className="relative z-10">Explore Full Hymn</span>
+              <ArrowRight className="h-6 w-6 relative z-10 group-hover:translate-x-2 transition-transform" />
+              <div className="absolute inset-0 bg-gradient-to-r from-vedic-saffron to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </Link>
         </motion.div>
 
-        {/* Hymn Info */}
+        {/* Hymn Info - Modernized */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
-          className="mt-6 pt-6 border-t border-vedic-gold/20 flex flex-wrap items-center justify-center gap-4 text-sm text-vedic-light/60"
+          className="relative z-10 mt-10 pt-8 border-t border-white/10 flex flex-wrap items-center justify-center gap-6 text-sm"
         >
-          <span>Rishi: <span className="text-vedic-gold">{featuredHymn.rishi}</span></span>
-          <span>•</span>
-          <span>Meter: <span className="text-vedic-gold">{featuredHymn.meter}</span></span>
+          <div className="px-4 py-2 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+            <span className="text-white/60">Rishi: </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-bold">{featuredHymn.rishi}</span>
+          </div>
+          <div className="px-4 py-2 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+            <span className="text-white/60">Meter: </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 font-bold">{featuredHymn.meter}</span>
+          </div>
           {featuredHymn.themes.length > 0 && (
-            <>
-              <span>•</span>
-              <span>Themes: <span className="text-vedic-gold">{featuredHymn.themes.join(', ')}</span></span>
-            </>
+            <div className="px-4 py-2 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+              <span className="text-white/60">Themes: </span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400 font-bold">{featuredHymn.themes.join(', ')}</span>
+            </div>
           )}
         </motion.div>
       </motion.div>

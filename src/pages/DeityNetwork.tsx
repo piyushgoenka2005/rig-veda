@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
-import SectionOverlay from '../components/SectionOverlay';
 import { motion } from 'framer-motion';
 import { 
   Search, 
@@ -313,8 +312,10 @@ const DeityNetwork: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-transparent relative" role="application" aria-label="Vedic Deity Network Graph">
-      <SectionOverlay opacity={48} blur="sm" />
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Video overlay for better text readability */}
+      <div className="fixed inset-0 bg-gradient-to-br from-vedic-deep/48 via-vedic-deep/48 to-vedic-deep/94 -z-[9] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 z-10">
         <div aria-live="polite" className="sr-only">{selectedDeity ? `Selected ${selectedDeity.name}` : ''}</div>
         {/* Header */}
         <motion.div

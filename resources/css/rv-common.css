@@ -1,0 +1,86 @@
+@font-face {
+    font-family: Eczar;
+    font-weight: normal;
+    src: url('/resources/Eczar-Regular.ttf');
+}
+
+@font-face {
+    font-family: Eczar;
+    font-weight: bold;
+    src: url('/resources/Eczar-Bold.ttf');
+}
+
+@font-face {
+    font-family: Garamond;
+    font-weight: normal;
+    src: url('/resources/EBGaramond-Regular.ttf');
+}
+
+@font-face {
+    font-family: Garamond;
+    font-weight: bold;
+    src: url('/resources/EBGaramond-Bold.ttf');
+}
+
+@font-face {
+    font-family: Garamond;
+    font-style: italic;
+    src: url('/resources/EBGaramond-Italic.ttf');
+}
+
+:root {
+    --theme-color-primary: rgb(240, 140, 7);
+    --theme-color-progressbar: rgb(255, 0, 0);
+    --theme-color-background: rgb(255, 255, 255);
+    --theme-color-text: rgb(0, 0, 0);
+    --theme-color-background-light: rgb(245, 245, 245);
+    --theme-color-background-lighter: rgb(235, 235, 235);
+    --theme-color-navbar-background: rgb(76, 76, 84);
+    --theme-color-navbar-text: rgb(255, 255, 255);
+    
+    /* Dark theme variables */
+    --vedic-gold: #D4AF37;
+    --vedic-saffron: #FF9933;
+    --vedic-deep: #2C1810;
+    --vedic-light: #F5F5DC;
+}
+
+body {
+    background-color: var(--theme-color-background);
+    color: var(--theme-color-text);
+    /* Override with dark theme if dark theme CSS is loaded */
+}
+
+/* Dark theme body override when rv-mandala.css or rv-hymn.css is loaded */
+body:has(#background-video) {
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a0f08 50%, #2C1810 100%);
+    color: #F5F5DC;
+}
+
+.card {
+    background-color: var(--theme-color-background-light);
+    color: var(--theme-color-text);
+}
+
+.card-footer {
+    background-color: var(--theme-color-background-lighter);
+    color: var(--theme-color-text);
+}
+
+.btn-nav {
+    color: var(--theme-color-navbar-text);
+}
+
+.btn-nav:hover {
+    color: var(--theme-color-background-lighter);
+}
+
+hr {
+    border: 0;
+    height: 32px;
+    text-align: center;
+    background: url('/resources/images/divider.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.5;
+}

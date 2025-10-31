@@ -1,0 +1,574 @@
+@import '/resources/css/rv-common.css';
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Sans+Devanagari:wght@400;700&display=swap');
+
+/* Dark Theme Variables */
+:root {
+    --vedic-gold: #D4AF37;
+    --vedic-saffron: #FF9933;
+    --vedic-deep: #2C1810;
+    --vedic-light: #F5F5DC;
+}
+
+/* Make scrollbars visible and styled */
+html {
+    overflow-x: auto;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 175, 55, 0.8) rgba(44, 24, 16, 0.5);
+}
+
+/* WebKit browsers (Chrome, Safari, Edge) - Horizontal and Vertical scrollbars */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+    background: rgba(44, 24, 16, 0.5);
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(44, 24, 16, 0.5);
+    border-left: 1px solid rgba(212, 175, 55, 0.3);
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.8);
+    border-radius: 6px;
+    border: 2px solid rgba(44, 24, 16, 0.5);
+    min-height: 30px;
+    min-width: 30px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 1);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: var(--vedic-gold);
+}
+
+/* Horizontal scrollbar specific styling */
+::-webkit-scrollbar:horizontal {
+    height: 12px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+    min-width: 50px;
+}
+
+/* Background Video */
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: -10;
+    pointer-events: none;
+}
+
+#video-overlay {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(44, 24, 16, 0.48) 0%, rgba(44, 24, 16, 0.48) 50%, rgba(44, 24, 16, 0.94) 100%);
+    z-index: -9;
+    pointer-events: none;
+}
+
+/* Splash Cursor Canvas */
+#splash-cursor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    pointer-events: none;
+}
+
+#splash-cursor {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+body {
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a0f08 50%, #2C1810 100%);
+    min-height: 100vh;
+    color: #F5F5DC;
+    overflow-x: auto;
+    overflow-y: auto;
+    position: relative;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.5em;
+    color: var(--vedic-gold);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    font-family: 'Playfair Display', serif;
+}
+
+/* Modern Navbar Styles */
+.navbar {
+    font-family: 'Playfair Display', serif;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    background: rgba(44, 24, 16, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    color: var(--vedic-light);
+    text-align: center;
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+/* Ensure only one navbar is visible */
+.navbar:first-of-type {
+    display: flex;
+}
+
+.navbar:nth-of-type(n+2) {
+    display: none !important;
+}
+
+.navbar-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s;
+}
+
+.navbar-logo:hover {
+    color: var(--vedic-gold);
+}
+
+.navbar-logo-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--vedic-gold);
+}
+
+.navbar-logo-text h1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--vedic-gold);
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+}
+
+.navbar-logo-text p {
+    font-size: 0.75rem;
+    color: rgba(245, 245, 220, 0.7);
+    margin: 0;
+}
+
+.navbar-links {
+    display: none;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+@media (min-width: 1024px) {
+    .navbar-links {
+        display: flex;
+    }
+}
+
+.navbar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: rgba(245, 245, 220, 0.7);
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.navbar-link:hover {
+    color: var(--vedic-gold);
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.navbar-link.active {
+    background: var(--vedic-gold);
+    color: var(--vedic-deep);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-link i {
+    width: 16px;
+    height: 16px;
+}
+
+.navbar-badges {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+@media (min-width: 768px) {
+    .navbar-badges {
+        display: flex;
+    }
+}
+
+.progress-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 9999px;
+    color: var(--vedic-gold);
+}
+
+.progress-badge.streak-badge {
+    background: rgba(255, 153, 51, 0.1);
+    border-color: rgba(255, 153, 51, 0.3);
+    color: var(--vedic-saffron);
+}
+
+.progress-badge.stats-badge {
+    background: rgba(96, 165, 250, 0.1);
+    border-color: rgba(96, 165, 250, 0.3);
+    color: #60A5FA;
+}
+
+.badge-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+    .badge-icon {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.progress-badge span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+@media (min-width: 1024px) {
+    .progress-badge span {
+        font-size: 0.875rem;
+    }
+}
+
+.settings-btn {
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    color: rgba(245, 245, 220, 0.7);
+    cursor: pointer;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-btn:hover {
+    color: var(--vedic-gold);
+}
+
+.settings-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Legacy navbar buttons (for compatibility) */
+.btn-nav {
+    color: var(--vedic-light);
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    transition: all 0.3s;
+}
+
+.btn-nav:hover {
+    color: var(--vedic-gold);
+    background: rgba(212, 175, 55, 0.2);
+    border-color: rgba(212, 175, 55, 0.4);
+}
+
+.progess-bar-header {
+    position: fixed;
+    top: 64px; /* Positioned below navbar */
+    width: 100%;
+    z-index: 999;
+}
+
+.progress-container {
+    background-color: rgba(212, 175, 55, 0.2);
+    height: 3px;
+    width: 100%;
+}
+
+.progress-bar {
+    background-color: var(--vedic-gold);
+    height: 3px;
+    width: 0%;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.container {
+    margin-top: 180px !important; /* Extra headroom: navbar (64px) + nav buttons (~56px) + spacing */
+    margin-bottom: 3% !important;
+    padding-top: 2rem !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+/* Ensure first element in container has proper spacing */
+.container > *:first-child {
+    margin-top: 0 !important;
+}
+
+.container > h2:first-child {
+    padding-top: 1rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.container > .card:first-child {
+    margin-top: 0 !important;
+}
+
+/* Hymn navigation buttons container */
+#hymn-nav-buttons {
+    position: fixed !important;
+    top: 64px !important;
+    right: 1rem !important;
+    display: flex !important;
+    gap: 0.5rem !important;
+    z-index: 1000 !important;
+    padding: 0.75rem !important;
+    background: rgba(44, 24, 16, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    height: auto !important;
+    min-height: 56px !important;
+    border-radius: 0 0 8px 8px !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    border-top: none !important;
+}
+
+.card {
+    border-radius: 25px;
+    transition: all 0.3s ease-in-out;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    color: var(--vedic-light);
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 12px 40px rgba(212, 175, 55, 0.2);
+}
+
+.card .card-footer {
+    color: var(--vedic-gold);
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 0 0 25px 25px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10.4px);
+    -webkit-backdrop-filter: blur(10.4px);
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.hymn-sanskrit {
+    color: var(--vedic-light);
+    border-radius: 25px;
+    font-family: 'Noto Sans Devanagari', serif;
+    text-align: center;
+    font-size: 2.5em;
+    padding: 1rem;
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.sanskrit-word {
+    position: relative;
+    text-decoration: inherit;
+    color: inherit;
+    padding-bottom: 10px;
+    transition: color 0.3s;
+}
+
+.sanskrit-word .transliteration-word {
+    position: absolute;
+    bottom: 0;
+    left: 2%;
+    margin: none;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.5em;
+    color: var(--vedic-saffron);
+    text-align: center;
+    font-weight: bold;
+}
+
+.sanskrit-word:hover {
+    color: var(--vedic-gold);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.hymn-translation-en {
+    color: rgba(245, 245, 220, 0.9);
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    font-weight: 400;
+    font-size: 1.5em;
+    padding: 1rem;
+    line-height: 1.6;
+}
+
+/* Hide old navbar column structures that aren't inside navbar-container */
+.navbar:not(:has(.navbar-container)) .col-1,
+.navbar:not(:has(.navbar-container)) .col-8,
+.navbar:not(:has(.navbar-container)) .col-10,
+.navbar:not(:has(.navbar-container)) > .col-1,
+.navbar:not(:has(.navbar-container)) > .col-8 {
+    display: none !important;
+}
+
+/* Aggressively hide any h2 inside the navbar */
+.navbar h2,
+.navbar .col-8 h2,
+nav.navbar h2 {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+}
+
+/* Hide all old navbar columns and buttons */
+.navbar .col-1,
+.navbar .col-8,
+.navbar .col-10,
+.navbar > div[class^="col-"] {
+    display: none !important;
+}
+
+/* Show navbar - ensure it's always visible - SIMPLE AND DIRECT */
+nav.navbar {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 64px !important;
+    background: rgba(44, 24, 16, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2) !important;
+    z-index: 1001 !important;
+}
+
+/* Hide any duplicate navbars - only show the first one */
+nav.navbar:nth-of-type(n+2) {
+    display: none !important;
+}
+
+/* For mobile screens */
+@media(max-width: 767px) {
+    .sanskrit-word .transliteration-word {
+        /* Hide transliteration for smaller screens */
+        visibility: hidden;
+    }
+
+    /* Reduce font size */
+    .hymn-sanskrit {
+        font-size: 1.2em;
+    }
+
+    .hymn-translation-en {
+        font-size: 1.0em;
+    }
+
+    .container {
+        margin-top: 120px; /* Account for navbar + nav buttons on mobile */
+    }
+    
+    #hymn-nav-buttons {
+        top: 64px !important;
+        right: 0.5rem !important;
+        gap: 0.25rem !important;
+        padding: 0.25rem !important;
+    }
+
+    h2 {
+        font-size: 1.0em;
+    }
+    
+    .navbar {
+        height: auto;
+        min-height: 64px;
+        flex-wrap: wrap;
+    }
+    
+    .navbar-links {
+        display: none !important;
+    }
+    
+    #music-visualizer-img {
+        width: 100vw !important;
+        height: 100vh !important;
+    }
+}
+
+/* Music Visualizer Image - Fullscreen Overlay */
+#music-visualizer-img {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    mix-blend-mode: screen;
+    filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.3));
+    will-change: transform;
+    background: transparent;
+}

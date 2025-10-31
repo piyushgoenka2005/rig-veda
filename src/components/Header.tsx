@@ -21,11 +21,11 @@ const Header: React.FC = () => {
   const { setShowOnboarding } = useAppStore();
 
   const navItems = [
-    { path: '/', label: 'Home', icon: Home },
-    { path: '/hymn/1.1.1', label: 'Hymn Viewer', icon: BookOpen },
-    { path: '/deities', label: 'Deity Network', icon: Network },
-    { path: '/concordance', label: 'Concordance', icon: Search },
-    { path: '/study', label: 'Study Mode', icon: Brain },
+    { path: '/', label: 'Home', icon: Home, fullReload: false },
+    { path: '/mandalas.html', label: 'Mandalas', icon: BookOpen, fullReload: true },
+    { path: '/deities', label: 'Deity Network', icon: Network, fullReload: false },
+    { path: '/concordance', label: 'Concordance', icon: Search, fullReload: false },
+    { path: '/study', label: 'Study Mode', icon: Brain, fullReload: false },
   ];
 
   const isActive = (path: string) => {
@@ -39,7 +39,7 @@ const Header: React.FC = () => {
     <>
       {/* Desktop Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-40 bg-vedic-deep/95 backdrop-blur-md border-b border-vedic-gold/20">
-        <div className="mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-3 group">
@@ -59,6 +59,22 @@ const Header: React.FC = () => {
             <div className="hidden lg:flex items-center space-x-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
+                if (item.fullReload) {
+                  return (
+                    <a
+                      key={item.path}
+                      href={item.path}
+                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
+                        isActive(item.path)
+                          ? 'bg-vedic-gold text-vedic-deep shadow-lg'
+                          : 'text-vedic-light/70 hover:text-vedic-gold hover:bg-vedic-gold/10'
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      <span className="font-medium">{item.label}</span>
+                    </a>
+                  );
+                }
                 return (
                   <Link
                     key={item.path}
@@ -107,6 +123,23 @@ const Header: React.FC = () => {
             <div className="py-2">
               {navItems.map((item) => {
                 const Icon = item.icon;
+                if (item.fullReload) {
+                  return (
+                    <a
+                      key={item.path}
+                      href={item.path}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`flex items-center space-x-3 px-4 py-3 transition-all duration-300 ${
+                        isActive(item.path)
+                          ? 'bg-vedic-gold text-vedic-deep'
+                          : 'text-vedic-light/70 hover:text-vedic-gold hover:bg-vedic-gold/10'
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                      <span className="font-medium">{item.label}</span>
+                    </a>
+                  );
+                }
                 return (
                   <Link
                     key={item.path}

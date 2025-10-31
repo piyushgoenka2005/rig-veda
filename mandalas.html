@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rig Veda</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a0f08 50%, #2C1810 100%);
+            min-height: 100vh;
+            color: #F5F5DC;
+            overflow-x: hidden;
+        }
+
+        /* Background Video */
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: -10;
+            pointer-events: none;
+        }
+
+        #video-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(44, 24, 16, 0.48) 0%, rgba(44, 24, 16, 0.48) 50%, rgba(44, 24, 16, 0.94) 100%);
+            z-index: -9;
+            pointer-events: none;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 40;
+            background: rgba(44, 24, 16, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            height: 64px;
+        }
+
+        .navbar-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+
+        .navbar-logo:hover {
+            color: #D4AF37;
+        }
+
+        .navbar-logo-icon {
+            width: 32px;
+            height: 32px;
+            color: #D4AF37;
+        }
+
+        .navbar-logo-text h1 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #D4AF37;
+            margin: 0;
+        }
+
+        .navbar-logo-text p {
+            font-size: 0.75rem;
+            color: rgba(245, 245, 220, 0.7);
+            margin: 0;
+        }
+
+        .navbar-links {
+            display: none;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        @media (min-width: 1024px) {
+            .navbar-links {
+                display: flex;
+            }
+        }
+
+        .navbar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: rgba(245, 245, 220, 0.7);
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .navbar-link:hover {
+            color: #D4AF37;
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .navbar-link.active {
+            background: #D4AF37;
+            color: #2C1810;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-link i {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Progress Badges */
+        .navbar-badges {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .navbar-badges {
+                display: flex;
+            }
+        }
+
+        .progress-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 9999px;
+            color: #D4AF37;
+        }
+
+        .progress-badge.streak-badge {
+            background: rgba(255, 153, 51, 0.1);
+            border-color: rgba(255, 153, 51, 0.3);
+            color: #FF9933;
+        }
+
+        .progress-badge.stats-badge {
+            background: rgba(96, 165, 250, 0.1);
+            border-color: rgba(96, 165, 250, 0.3);
+            color: #60A5FA;
+        }
+
+        .badge-icon {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .badge-icon {
+                width: 16px;
+                height: 16px;
+            }
+            .progress-badge {
+                padding: 0.25rem 0.5rem;
+            }
+        }
+
+        .progress-badge span {
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        @media (min-width: 1024px) {
+            .progress-badge span {
+                font-size: 0.875rem;
+            }
+        }
+
+        .settings-btn {
+            padding: 0.5rem;
+            background: none;
+            border: none;
+            color: rgba(245, 245, 220, 0.7);
+            cursor: pointer;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .settings-btn:hover {
+            color: #D4AF37;
+        }
+
+        .settings-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .mobile-menu-btn {
+            display: block;
+            padding: 0.5rem;
+            background: none;
+            border: none;
+            color: rgba(245, 245, 220, 0.7);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu-btn:hover {
+            color: #D4AF37;
+        }
+
+        @media (min-width: 1024px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(44, 24, 16, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 0 0 12px 12px;
+            margin: 0 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        .mobile-menu-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            color: rgba(245, 245, 220, 0.7);
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .mobile-menu-link:last-child {
+            border-bottom: none;
+        }
+
+        .mobile-menu-link:hover,
+        .mobile-menu-link.active {
+            background: #D4AF37;
+            color: #2C1810;
+        }
+
+        /* Splash Cursor Canvas */
+        #splash-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        .container {
+            padding-top: 5%;
+            padding-bottom: 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-content {
+            padding-top: 64px;
+            display: block;
+            visibility: visible;
+            opacity: 1;
+            position: relative;
+            z-index: 10;
+        }
+
+        .rv-title-sanskrit {
+            font-family: 'Noto Sans Devanagari', serif;
+            font-size: 4.5em;
+            font-weight: bold;
+            text-align: center;
+            color: #D4AF37;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6), 0 0 30px rgba(255, 153, 51, 0.4);
+            margin-bottom: 1rem;
+        }
+
+        .rv-title-english {
+            font-family: 'Playfair Display', serif;
+            font-size: 5.5em;
+            text-align: center;
+            color: #FF9933;
+            text-shadow: 0 0 10px rgba(255, 153, 51, 0.5);
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        hr {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            margin: 3rem 0;
+            opacity: 0.6;
+        }
+
+        .btn-mandala {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .rv-mandala-buttons {
+            text-align: center;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            color: #F5F5DC;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: scale(1.05) translateY(-5px);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(255, 153, 51, 0.1) 100%);
+            border-color: rgba(212, 175, 55, 0.5);
+            color: #D4AF37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .card img {
+            filter: brightness(1.2);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .stretched-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.9rem;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding-top: 3%;
+            padding-bottom: 3%;
+            color: rgba(245, 245, 220, 0.7);
+            margin-top: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer a {
+            color: #D4AF37;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #FF9933;
+            text-decoration: underline;
+        }
+
+        .form-control {
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: #F5F5DC;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #D4AF37;
+            color: #F5F5DC;
+            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: rgba(245, 245, 220, 0.5);
+        }
+
+        .form-label {
+            color: rgba(245, 245, 220, 0.7);
+        }
+
+        @media (max-width: 768px) {
+            .rv-title-sanskrit {
+                font-size: 3em;
+            }
+            .rv-title-english {
+                font-size: 3.5em;
+            }
+            .btn-mandala {
+                font-size: 1.4em;
+            }
+            .container {
+                padding-top: 10%;
+                padding-bottom: 10%;
+            }
+        }
+
+        /* Animated background particles effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 153, 51, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -8;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Video -->
+    <video id="background-video" autoplay muted loop playsinline>
+        <source src="/Video_Generation_Complete.mp4" type="video/mp4">
+    </video>
+    <div id="video-overlay"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-logo">
+                <svg class="navbar-logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                <div class="navbar-logo-text">
+                    <h1>Rig Veda Explorer</h1>
+                    <p>Interactive Vedic Journey</p>
+                </div>
+            </a>
+
+            <div class="navbar-links">
+                <a href="/" class="navbar-link" id="nav-home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="/mandalas.html" class="navbar-link active" id="nav-mandalas">
+                    <i class="fas fa-book"></i>
+                    <span>Mandalas</span>
+                </a>
+                <a href="/deities" class="navbar-link" id="nav-deities">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Deity Network</span>
+                </a>
+                <a href="/concordance" class="navbar-link" id="nav-concordance">
+                    <i class="fas fa-search"></i>
+                    <span>Concordance</span>
+                </a>
+                <a href="/study" class="navbar-link" id="nav-study">
+                    <i class="fas fa-brain"></i>
+                    <span>Study Mode</span>
+                </a>
+            </div>
+
+            <!-- Progress Badges -->
+            <div class="navbar-badges">
+                <div class="progress-badge" title="Mandalas Explored">
+                    <svg class="badge-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                    </svg>
+                    <span>3/10</span>
+                </div>
+                <div class="progress-badge streak-badge" title="1 day reading streak">
+                    <svg class="badge-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    <span>1</span>
+                </div>
+                <div class="progress-badge stats-badge" title="Hymns Read">
+                    <svg class="badge-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    <span>4/11</span>
+                </div>
+                <button class="settings-btn" title="Show Tutorial">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars" id="menu-icon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="/" class="mobile-menu-link">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="/mandalas.html" class="mobile-menu-link active">
+            <i class="fas fa-book"></i>
+            <span>Mandalas</span>
+        </a>
+        <a href="/deities" class="mobile-menu-link">
+            <i class="fas fa-project-diagram"></i>
+            <span>Deity Network</span>
+        </a>
+        <a href="/concordance" class="mobile-menu-link">
+            <i class="fas fa-search"></i>
+            <span>Concordance</span>
+        </a>
+        <a href="/study" class="mobile-menu-link">
+            <i class="fas fa-brain"></i>
+            <span>Study Mode</span>
+        </a>
+    </div>
+
+    <!-- Splash Cursor Canvas -->
+    <div id="splash-cursor-container" style="position: fixed; top: 0; left: 0; z-index: 50; pointer-events: none; width: 100%; height: 100%;">
+        <canvas id="splash-cursor" style="width: 100vw; height: 100vh; display: block;"></canvas>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <div class="rv-title-sanskrit">
+                    ऋग्वेद
+                </div>
+
+                <div class="rv-title-english">
+                    THE RIGVEDA
+                </div>
+
+                <hr>
+                
+                <div class="rv-mandala-buttons row">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Maintained by the Arts, Artefacts, Scriptures Index.<br>
+        Besonderer Dank an <a href="https://vedaweb.uni-koeln.de/" target="_blank" rel="noopener noreferrer">Universität zu Köln</a>, und <a href="https://sacred-texts.com" target="_blank" rel="noopener noreferrer">Sacred-Texts</a>.
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+    <script src="/resources/js/index.js"></script>
+    
+    <!-- Load SplashCursor from React app bundle -->
+    <script>
+        // Wait for React app to load and then initialize SplashCursor
+        window.addEventListener('load', function() {
+            // Try to mount SplashCursor if React is available
+            if (window.React && window.ReactDOM) {
+                // Import and mount SplashCursor component
+                import('/src/components/SplashCursor.tsx').then(module => {
+                    const SplashCursor = module.default;
+                    const container = document.getElementById('splash-cursor-container');
+                    if (container && window.React && window.ReactDOM) {
+                        const root = window.ReactDOM.createRoot(container);
+                        root.render(window.React.createElement(SplashCursor));
+                    }
+                }).catch(() => {
+                    // If import fails, use inline WebGL implementation
+                    loadSplashCursorInline();
+                });
+            } else {
+                // Load inline implementation
+                loadSplashCursorInline();
+            }
+        });
+
+        function loadSplashCursorInline() {
+            // Load the standalone splash cursor implementation
+            const script = document.createElement('script');
+            script.src = '/splash-cursor.js';
+            script.onerror = function() {
+                console.warn('Could not load splash cursor, using fallback');
+            };
+            document.head.appendChild(script);
+        }
+    </script>
+
+    <script>
+        // Ensure scripts run when page loads
+        (function() {
+            // Wait for DOM to be ready
+            function init() {
+                // Mobile menu toggle
+                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.addEventListener('click', function() {
+                        const menu = document.getElementById('mobile-menu');
+                        const icon = document.getElementById('menu-icon');
+                        if (menu && icon) {
+                            menu.classList.toggle('active');
+                            if (menu.classList.contains('active')) {
+                                icon.className = 'fas fa-times';
+                            } else {
+                                icon.className = 'fas fa-bars';
+                            }
+                        }
+                    });
+                }
+
+                // Close mobile menu when clicking a link
+                document.querySelectorAll('.mobile-menu-link').forEach(link => {
+                    link.addEventListener('click', function() {
+                        const menu = document.getElementById('mobile-menu');
+                        const menuIcon = document.getElementById('menu-icon');
+                        if (menu) menu.classList.remove('active');
+                        if (menuIcon) menuIcon.className = 'fas fa-bars';
+                    });
+                });
+
+                // Ensure content is visible
+                const mainContent = document.querySelector('.main-content');
+                if (mainContent) {
+                    mainContent.style.display = 'block';
+                    mainContent.style.visibility = 'visible';
+                    mainContent.style.opacity = '1';
+                }
+
+                // Ensure navbar is visible
+                const navbar = document.querySelector('.navbar');
+                if (navbar) {
+                    navbar.style.display = 'flex';
+                    navbar.style.visibility = 'visible';
+                }
+            }
+
+            // Run on DOM ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+            // Also run on window load as fallback
+            window.addEventListener('load', function() {
+                init();
+                // Force visibility after a short delay to ensure everything loads
+                setTimeout(function() {
+                    const mainContent = document.querySelector('.main-content');
+                    if (mainContent) {
+                        mainContent.style.display = 'block';
+                        mainContent.style.visibility = 'visible';
+                        mainContent.style.opacity = '1';
+                        mainContent.style.position = 'relative';
+                        mainContent.style.zIndex = '10';
+                    }
+                }, 100);
+            });
+        })();
+    </script>
+</body>
+
+</html>
