@@ -10,7 +10,15 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'three-vendor': ['three', '@react-three/fiber', '@react-three/drei']
+        }
+      }
+    }
   },
   optimizeDeps: {
     include: ['three', '@react-three/fiber', '@react-three/drei']

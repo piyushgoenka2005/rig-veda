@@ -15,37 +15,67 @@ const MandalaDetail: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [suktas, setSuktas] = useState<MandalaSukta[]>([]);
 
-  // Lazy-load mandala JSON using Vite's glob imports
+  // Lazy-load mandala JSON using dynamic imports
   useEffect(() => {
     let isActive = true;
     setLoading(true);
     setError(null);
 
-    const loaders = (import.meta as any).glob('../data/rigveda_mandala_*.json') as Record<string, () => Promise<any>>;
-    const key = `../data/rigveda_mandala_${mandalaNum}.json` as const;
-    const load = loaders[key];
+    // Dynamically import the mandala JSON file
+    const loadMandala = async () => {
+      try {
+        let mod: any;
+        switch (mandalaNum) {
+          case 1:
+            mod = await import('../data/rigveda_mandala_1.json');
+            break;
+          case 2:
+            mod = await import('../data/rigveda_mandala_2.json');
+            break;
+          case 3:
+            mod = await import('../data/rigveda_mandala_3.json');
+            break;
+          case 4:
+            mod = await import('../data/rigveda_mandala_4.json');
+            break;
+          case 5:
+            mod = await import('../data/rigveda_mandala_5.json');
+            break;
+          case 6:
+            mod = await import('../data/rigveda_mandala_6.json');
+            break;
+          case 7:
+            mod = await import('../data/rigveda_mandala_7.json');
+            break;
+          case 8:
+            mod = await import('../data/rigveda_mandala_8.json');
+            break;
+          case 9:
+            mod = await import('../data/rigveda_mandala_9.json');
+            break;
+          case 10:
+            mod = await import('../data/rigveda_mandala_10.json');
+            break;
+          default:
+            throw new Error(`Mandala ${mandalaNum} not found`);
+        }
 
-    if (!load) {
-      setError(`Data file not found for mandala ${mandalaNum}`);
-      setSuktas([]);
-      setLoading(false);
-      return;
-    }
-
-    load()
-      .then((mod: any) => {
-        // Vite JSON imports expose the data as default export
-        const data: MandalaSukta[] = (mod?.default || []) as MandalaSukta[];
         if (!isActive) return;
+        
+        // Vite JSON imports expose the data as default export
+        const data: MandalaSukta[] = (mod?.default || mod || []) as MandalaSukta[];
         const sorted = [...data].sort((a, b) => (a.sukta || 0) - (b.sukta || 0));
         setSuktas(sorted);
         setLoading(false);
-      })
-      .catch((e: any) => {
+      } catch (e: any) {
         if (!isActive) return;
-        setError(e?.message || 'Failed to load mandala data');
+        setError(e?.message || `Failed to load mandala ${mandalaNum} data`);
+        setSuktas([]);
         setLoading(false);
-      });
+      }
+    };
+
+    loadMandala();
 
     return () => { isActive = false; };
   }, [mandalaNum]);
