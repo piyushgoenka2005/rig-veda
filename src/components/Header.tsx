@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { useAppStore } from '../store/appStore';
+import ProgressBadge from './ProgressBadge';
 
 const Header: React.FC = () => {
   const location = useLocation();
@@ -77,6 +78,8 @@ const Header: React.FC = () => {
 
             {/* Actions */}
             <div className="flex items-center space-x-4">
+              <ProgressBadge />
+              
               <button
                 onClick={() => setShowOnboarding(true)}
                 className="p-2 text-vedic-light/70 hover:text-vedic-gold transition-colors"

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SectionOverlay from '../components/SectionOverlay';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -21,7 +21,7 @@ const MandalaDetail: React.FC = () => {
     setLoading(true);
     setError(null);
 
-    const loaders = import.meta.glob('../data/rigveda_mandala_*.json');
+    const loaders = (import.meta as any).glob('../data/rigveda_mandala_*.json') as Record<string, () => Promise<any>>;
     const key = `../data/rigveda_mandala_${mandalaNum}.json` as const;
     const load = loaders[key];
 

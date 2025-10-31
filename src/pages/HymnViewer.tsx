@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useAppStore } from '../store/appStore';
 import { Hymn } from '../types/vedic';
+import ShareButton from '../components/ShareButton';
 
 const HymnViewer: React.FC = () => {
   const { hymnId } = useParams<{ hymnId: string }>();
@@ -250,9 +251,7 @@ const HymnViewer: React.FC = () => {
                 {audioEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
               </button>
               
-              <button className="p-2 bg-vedic-deep/50 text-vedic-light/70 hover:text-vedic-gold rounded-lg transition-colors">
-                <Share2 className="h-5 w-5" />
-              </button>
+              <ShareButton hymn={currentHymn} verse={currentVerseData} />
             </div>
           </div>
 

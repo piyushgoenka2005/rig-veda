@@ -10,6 +10,9 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { useAppStore } from '../store/appStore';
+import FeaturedHymn from '../components/FeaturedHymn';
+import MantraParticles from '../components/MantraParticles';
+import StatsWidget from '../components/StatsWidget';
 // import BookAnimation from '../components/BookAnimation';
 
 const HomePage: React.FC = () => {
@@ -52,6 +55,8 @@ const HomePage: React.FC = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative min-h-[100vh] pt-32 pb-20 overflow-hidden flex items-center">
+        {/* Mantra Particles Background */}
+        <MantraParticles />
         {/* Subtle pattern overlay */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{
@@ -62,15 +67,16 @@ const HomePage: React.FC = () => {
         {/* Additional dark layer to improve text contrast over bright video areas */}
         <div className="absolute inset-0 bg-black/60 md:bg-black/55" />
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
+            className="text-center mb-12"
           >
             <div className="inline-flex items-center space-x-2 bg-vedic-gold/10 border border-vedic-gold/20 rounded-full px-4 py-2 mb-6">
               <Sparkles className="h-4 w-4 text-vedic-gold" />
-              <span className="text-sm font-medium text-vedic-gold">Another way to explore the RigVeda</span>
+              <span className="text-sm font-medium text-vedic-gold">Experience the Rig Veda in 30 seconds</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold text-vedic-gold mb-6 text-glow">
@@ -78,19 +84,17 @@ const HomePage: React.FC = () => {
             </h1>
             
             <p className="text-xl md:text-2xl text-vedic-light/80 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Journey through the ancient wisdom of the Rig Veda with interactive visualizations, 
-              deity networks, and immersive hymn exploration.
+              From ancient wisdom to modern understanding in one click
             </p>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-              <Link to="/mandalas" className="btn-primary text-lg px-8 py-4 inline-flex items-center gap-2 whitespace-nowrap">
-                <span>Start Exploring</span>
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-            </div>
           </motion.div>
+
+          {/* Featured Hymn of the Day */}
+          <FeaturedHymn />
         </div>
       </section>
+
+      {/* Stats Widget */}
+      <StatsWidget />
 
       {/* Features Section */}
       <section className="relative py-20">

@@ -495,7 +495,6 @@ const DeityNetwork: React.FC = () => {
                 {/* Edges */}
                 {edges.map((edge, index) => {
                   const a = selectedDeity?.id;
-                  const dimmed = a ? false : false;
                   // Simple highlight: if selected, highlight edges connected to neighbors
                   let highlighted = false;
                   if (a) {

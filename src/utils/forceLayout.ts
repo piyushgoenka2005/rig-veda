@@ -59,7 +59,7 @@ export function computeForceLayout(
 
   const simulation = forceSimulation(simNodes as any)
     .force('charge', forceManyBody().strength(-40))
-    .force('collision', forceCollide().radius((d: any) => 12))
+    .force('collision', forceCollide().radius(() => 12))
     .force('link', forceLink(simLinks as any)
       .id((d: any) => d.id)
       .distance((l: any) => 30 + (1 - (l.strength ?? 0.5)) * 50)
