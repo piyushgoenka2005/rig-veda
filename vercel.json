@@ -1,0 +1,34 @@
+{
+  "rewrites": [
+    {
+      "source": "/mandalas.html",
+      "destination": "/mandalas.html"
+    },
+    {
+      "source": "/search.html",
+      "destination": "/search.html"
+    },
+    {
+      "source": "/:mandala(\\d+)/index.html",
+      "destination": "/:mandala/index.html"
+    },
+    {
+      "source": "/:mandala(\\d+)/:hymn.html",
+      "destination": "/:mandala/:hymn.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*).html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "cleanUrls": false,
+  "trailingSlash": false
+}
+
